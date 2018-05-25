@@ -1,0 +1,831 @@
+"1","1","2015-08-10 22:37:08","2015-08-10 20:37:08","Please wait...","Wörk in progress",,"draft","open","open",,"hallo",,,"2015-09-02 23:42:22","2015-09-02 21:42:22",,"0","http://gingerlabs.tk/?p=1","0","post",,"1"
+"14","1","2015-09-02 23:43:57","2015-09-02 21:43:57","Ich habe nun diesen Blog erstellt, um meine Gedanken, Projekte und sonstige interessante Dinge zu veröffentlichen.
+
+Im Moment arbeite ich an diversen Projekten, unter anderem an dem Reverse-Engineering  einiger alten Platinen und einem Minecraft Telegram Bot (Mehr Infos coming soon).
+
+Auch werde ich versuchen Infos über ältere Projekte  hier zu veröffentlichen.
+
+(Selbstverständlich befindet sich der Blog noch im Aufbau und kann sich in nächster Zeit noch wandeln)","Hallo Welt",,"publish","open","open",,"hallo-welt",,,"2016-02-12 14:05:40","2016-02-12 13:05:40",,"0","http://gingerlabs.tk/?p=14","0","post",,"0"
+"29","1","2015-09-04 23:52:39","2015-09-04 21:52:39","[caption id="""" align=""alignright"" width=""294""]<a href=""https://en.wikipedia.org/wiki/File:OriginalSimon.jpg"" target=""_blank""><img src=""https://upload.wikimedia.org/wikipedia/commons/9/99/OriginalSimon.jpg"" alt=""Original Simon Spiel"" width=""294"" height=""278"" /></a> Original Simon Spiel[/caption]
+
+Einige kennen eventuell noch das Denkspiel <a href=""https://en.wikipedia.org/wiki/Simon_(game)"" target=""_blank"">Simon</a>.
+
+Ich dachte mir: so ein einfaches Spiel müsste sich doch sehr einfach mit einem Arduino nachbauen lassen. Es besteht ja schließlich nur aus 4 Tastern, 4 LEDs und einem Buzzer.
+
+Aber wieso ein Arduino für so ein einfaches Spiel vergeuden? Ein ATTiny85 tut's doch auch und ist obendrein noch günstiger.
+
+<!--more-->
+
+Nur ein kleines Problem: Der ATTiny hat nur 5 I/O Pins, obwohl ich für das Spiel eigentlich 9 bräuchte...
+
+Moment, sagte ich neun? Fünf reichen doch vollkommen aus! An einen I/O-Pin kann man einen Taster und eine LED gleichzeitig anschließen, sofern man weiß wie.
+
+Die LED ist mit dem Plus-Beinchen über einen Widerstand direkt mit V<sub>CC</sub> verbunden und der Taster hängt an GND. Das Minus-Beinchen der LED und das andere Beinchen des Tasters sind nun verbunden, was wiederum dafür sorgt, dass die LED leuchtet, sobald man den Taster drückt. An diesem Verbindungspunkt wird nun ein I/O-Pin des ATTinys angeschlossen, sodass der ATTiny sowohl den Status des Tasters abfragen, als auch die LED leuchten lassen kann.
+
+Der letzt I/O-Pin geht nun noch für den Buzzer drauf. Man will ja schließlich auch was hören. ;)
+
+Mit diesem Wissen und dem gratis Elektronik CAD - Programm <a href=""http://server.ibfriedrich.com/wiki/ibfwikide/index.php?title=Hauptseite"" target=""_blank"">Target 3001!</a> machte ich mich nun an den Schaltplan
+
+[caption id=""attachment_33"" align=""alignnone"" width=""1280""]<a href=""https://gingerlabs.de/arduino-says-teil-1/photo_2015-09-04_22-24-29/"" rel=""attachment wp-att-33""><img class=""size-full wp-image-33"" src=""https://gingerlabs.de/wp-content/uploads/2015/09/photo_2015-09-04_22-24-29.jpg"" alt=""ATTiny says - Schaltplan"" width=""1280"" height=""583"" /></a> ATTiny says - Schaltplan[/caption]","Arduino Says (Teil 1)",,"publish","open","closed",,"arduino-says-teil-1",,,"2016-02-12 14:03:54","2016-02-12 13:03:54",,"0","http://gingerlabs.tk/?p=29","0","post",,"0"
+"45","1","2015-09-05 17:25:44","2015-09-05 15:25:44","[caption id=""attachment_73"" align=""alignright"" width=""592""]<a href=""https://gingerlabs.de/arduino-says-teil-2/attiny-says-code-2/"" rel=""attachment wp-att-73""><img class=""wp-image-73 size-full"" src=""https://gingerlabs.de/wp-content/uploads/2015/09/ATTiny-says-code1.png"" alt=""Code Ausschnitt"" width=""592"" height=""608"" /></a> Code Ausschnitt[/caption]
+
+Wie versprochen jetzt der zweite Teil von Arduino Says: Software
+
+Für alle die nicht lesen wollen, hier direkt der <a href=""https://github.com/LeoDJ/ATTiny-Says/blob/master/ATTiny_says/ATTiny_says.ino"" target=""_blank"">Code</a>.
+<h3>Funktionsprinzip</h3>
+Der Spielablauf von Simon besteht darin, dass der Spieler eine zufällige Sequenz an aufleuchtenden LEDs mit den Knöpfen nachmachen muss. Hat er dies geschafft, wird die Sequenz um einen Schritt erweitert. Das geht so lang, bis der Spieler sich verklickt (oder die maximale Sequenzlänge erreicht wird, wobei Ersteres sehr viel wahrscheinlicher ist).
+
+(Zum selbst ausprobieren: <a href=""http://www.freesimon.org/"" target=""_blank"">http://www.freesimon.org/</a> (mein Highscore: 17))
+<h3>Code</h3>
+Nach einigem Herumgebastel war die erste Version des Programmcodes auch soweit fertig und bereit geflasht zu werden. Doch wie bekommt man den Code jetzt auf den ATTiny? Der hat ja schließlich keinen USB-Anschluss...
+
+<!--more-->
+
+Da ich keinen USB-ISP-Programmer besitze, musste eben ein Arduino Nano mit dem ArduinoISP-Sktech als Programmer herhalten.
+
+Die erste Version funktionierte natürlich nicht wie gedacht und brauchte noch einige Optimierungen (laut Dropbox genau genommen 31). Und für jede einzelne Änderung des Codes musste ich den ATTiny vom einen Teil des Breadboards auf den anderen stecken und wieder zurück, nur um zu sehen, dass es immer noch nicht richtig funktioniert :P
+<h3>Funktionsumfang</h3>
+Nach noch mehr Herumgebastel ist nun Version 0.1 des Programmcodes soweit fertig.
+
+Es kann:
+<ul>
+	<li>Simon says bis zu einer Sequenzlänge von 32 (ist anscheinend das offizielle Maximum, wie <a href=""https://youtu.be/F3LjJITuheM?t=2m29s"" target=""_blank"">hier</a> zu sehen (wäre aber auf über 400 erweiterbar, bis der RAM des ATTiny (512 Byte) eben belegt ist)</li>
+	<li>Tastentöne</li>
+	<li>Kleine Animationen (einmal blinken = Spielstart, zweimal blinken = verloren)</li>
+</ul>
+Es soll noch können:
+<ul>
+	<li>Gescheite Animationen für Spielstart, Spielende und Schlafmodus</li>
+	<li>Schlafmodus, damit man keinen Power-Schalter braucht und man das Spiel mit einem beliebigen Tastendruck wecken kann.</li>
+	<li>(Mute-Schalter vor dem Buzzer im endgültigen Layout)</li>
+</ul>
+&nbsp;
+
+Layout und Code finden sich auch im<a href=""https://github.com/LeoDJ/ATTiny-Says""> Github Repo</a>","Arduino Says (Teil 2)",,"publish","open","open",,"arduino-says-teil-2",,,"2016-02-12 13:56:35","2016-02-12 12:56:35",,"0","http://gingerlabs.tk/?p=45","0","post",,"0"
+"93","1","2016-01-28 13:37:12","2016-01-28 12:37:12","Einige haben mich bereits gefragt, wie ich an mein breites Elektronik-Wissen gekommen bin. Darauf kann ich mit nur einem Wort antworten: YouTube.
+
+Von YouTube habe ich bei weitem am meisten über Elektronik (und Englisch) gelernt, ich weiß nicht, ob das für jeden zutrifft, aber mir hat es auf jeden Fall sehr geholfen
+
+Aber genau welche Kanäle würde ich denn empfehlen?
+
+Hier also eine Liste meiner persönlichen, favorisierten YouTube-Channel (hauptsächlich elektronische, aber auch andere technische) inklusive kurzer Beschreibung:
+
+<!--more-->
+<ol>
+	<li><a href=""https://www.youtube.com/channel/UCTIbJjEkWvY-CB7OnIv0QFg"" target=""_blank"">Gregor Ottmann</a> - [DE] Großartiger deutscher Elektronik-Bastler, viele Hobbyprojekte, sehr humorvoll</li>
+	<li><a href=""https://www.youtube.com/channel/UCz0-R_txYGlU1cFBPtUXGSg"" target=""_blank"">BitBastelei</a> - [DE] Hobbyprojekte,  Teardowns und Repairs</li>
+	<li><a href=""https://www.youtube.com/channel/UCDq5T5K8dd9qL6fKBtBMXoQ"" target=""_blank"">HomoFaciens</a> - [EN/DE] Erklärbär und einige Hobbyprojekte</li>
+	<li><a href=""https://www.youtube.com/channel/UC6mIxFTvXkWQVEHPsEdflzQ"" target=""_blank"">GreatScott!</a> - [EN] Viele gute DIY-Projekte, einfach nachzubauen, Arduino / Raspberry Pi</li>
+	<li><a href=""https://www.youtube.com/channel/UCDbWmfrwmzn1ZsGgrYRUxoA"" target=""_blank"">The Post Apocalyptic Inventor</a> - [EN] Erklärbär, einige DIY-Projekte (eher richtung Mechatronik)</li>
+	<li><a href=""https://www.youtube.com/channel/UCmHvGf00GDuPYG9DZqQKd9A"" target=""_blank"">Julian Ilett</a> - [EN] Reviews zu China-Teilen, Elektronik-Spielereien</li>
+	<li><a href=""https://www.youtube.com/channel/UCFtc3XdXgLFwhlDajMGK69w"" target=""_blank"">NightHawkInLight</a> - [EN] Etwas ausgefallenere DIY-Projekte (eher technisch)</li>
+	<li><a href=""https://www.youtube.com/channel/UCUQo7nzH1sXVpzL92VesANw"" target=""_blank"">DIY Perks</a> - [EN] qualitativ hochwertige Elektronik-DIY-Tutorials</li>
+	<li><a href=""https://www.youtube.com/channel/UCosnWgi3eorc1klEQ8pIgJQ"" target=""_blank"">Afrotechmods</a> - [EN] Erklärbär rund um Elektronik (lässt gerne Komponenten abrauchen)</li>
+	<li><a href=""https://www.youtube.com/channel/UC4KXPjmKwPutGjwFZsEXB5g"" target=""_blank"">Jeremy Blum</a> - [EN] Arduino Tutorials, komplexe Elektronik-Projekte</li>
+	<li><a href=""https://www.youtube.com/channel/UC42d7zFnWU0dYVk_M0JED6w"" target=""_blank"">Kevin Darrah</a> - [EN] gute Elektronik-Projekte zum Nachmachen, ab und zu Erklärbär</li>
+	<li><a href=""https://www.youtube.com/channel/UCLhStqjQbgTyphK0dsXi0ZQ"" target=""_blank"">David Watts</a> - [EN] interessante Projekte (aber nicht gerade der Beste im Programmieren)</li>
+	<li><a href=""https://www.youtube.com/channel/UC2DjFE7Xf11URZqWBigcVOQ"" target=""_blank"">EEVblog</a> - [EN] Dave Jones, sollte jeder kennen, der etwas mit Elektronik am Hut hat</li>
+	<li><a href=""https://www.youtube.com/channel/UChturLXwYxwTOf_5krs0qvA"" target=""_blank"">The Ben Heck Show</a> - [EN] ausführliche, große Projekte  (einiges mit Retro-Konsolen)</li>
+	<li><a href=""https://www.youtube.com/channel/UCcs0ZkP_as4PpHDhFcmCHyA"" target=""_blank"">mikeselectricstuff</a> - [EN] ausführliche Teardowns</li>
+	<li><a href=""https://www.youtube.com/channel/UCtM5z2gkrGRuWd0JQMx76qA"" target=""_blank"">bigclivedotcom</a> - [EN] viele Teardowns von unterschiedlichsten Geräten (oft tägliche Uploads)</li>
+	<li><a href=""https://www.youtube.com/channel/UCpOlOeQjj7EsVnDh3zuCgsA"" target=""_blank"">Adafruit Industries</a> - [EN] Offizieller Channel von <a href=""http://adafruit.com"" target=""_blank"">adafruit.com</a>, interessante Projekte und Produktvorstellungen</li>
+	<li><a href=""https://www.youtube.com/channel/UCOTPsWDzNAosVd6vc3pCPHQ"" target=""_blank"">mjlorton</a> - [EN] ausführliche Tests und Reviews rund um Elektronik-Ausrüstung</li>
+	<li><a href=""https://www.youtube.com/channel/UCl9OJE9OpXui-gRsnWjSrlA"" target=""_blank"">Photonicinduction</a> - [EN] ""I wanna blow stuff up!"" lustig, rund um Hochspannung, Hochstrom und Zerstörung von Haushaltsgeräten</li>
+	<li><a href=""https://www.youtube.com/channel/UCiikqsFCXlqh4lPxHvoDEJw"" target=""_blank"">RODALCO2007</a> - [EN] random Zerstörung von allem Möglichen rund um Elektronik</li>
+	<li><a href=""https://www.youtube.com/channel/UCJ0-OtVpF0wOKEqT2Z1HEtA"" target=""_blank"">ElectroBOOM</a> - [EN] Erklärbär rund um Elektronik-Basiswissen, extrem lustig, Sadomasochist (tut sich gern weh)</li>
+	<li><a href=""https://www.youtube.com/channel/UCp68_FLety0O-n9QU6phsgw"" target=""_blank"">colinfurze</a> - [EN] Verrückter Wissenschalfter, baut die ausgefallensten Maschinen (Jetbetriebenes Kart, X-Men Flammenwerfer, etc.) -&gt; muss man gesehen haben</li>
+	<li><a href=""https://www.youtube.com/channel/UCTXOorupCLqqQifs2jbz7rQ"" target=""_blank"">iforce2d</a> - [EN] Arduino + Quadcopter, viel DIY</li>
+	<li><a href=""https://www.youtube.com/channel/UCp1vASX-fg959vRc1xowqpw"" target=""_blank"">Painless360</a> - [EN] alles rund um DIY Quadcopter</li>
+	<li><a href=""https://www.youtube.com/channel/UCNEZ7cqaZzYLeyWfTkelkEA"" target=""_blank"">Taofledermaus</a> - [EN] ausgefallene Wissenschafts-Experimente, und Shotgun-Geschosse</li>
+	<li><a href=""https://www.youtube.com/channel/UChWv6Pn_zP0rI6lgGt3MyfA"" target=""_blank"">AvE</a> - [EN] Irgendwas zwischen basic-Arduino und Maschinist</li>
+</ol>
+&nbsp;
+
+&nbsp;
+
+Es fällt vielleicht auf, dass die meisten Channel englischsprachig sind. Dies ist recht einfach zu erklären. Englische YouTube-Channel sind qualitativ einfach hochwertiger (und außerdem finde ich die englische Sprache einfach besser für Elektronik-Gelaber geeignet :P)
+
+Fallen dir noch weitere Kanäle ein, die sich in dieser Liste gut machen würden? Dann hinterlass doch bitte einen Kommentar ;)","Empfohlene YouTube Kanäle",,"publish","open","open",,"empfohlene-youtube-kanaele",,,"2016-01-28 17:21:50","2016-01-28 16:21:50",,"0","http://gingerlabs.de/?p=93","0","post",,"0"
+"1594","1","2015-10-16 21:42:53","0000-00-00 00:00:00","Auf der MakerFaire Hannover 2015 hatte ich am Stand von Arduino Hannover etwas entdeckt. Und zwar einen elektronischen Würfel.
+
+Nun gibt es viele elektronische DIY-Würfel, bei denen man einfach einen Knopf drücken muss, damit eine Zahl gewürfelt wird. Doch dieser hatte etwas besonderes an sich.<!--more-->
+
+Und zwar hat dieser Würfel einen Schüttelschalter.
+Kein Würfeln-Knopf, oder Power-Schalter weit und breit.
+
+Das hat mich inspiriert, auch einen solchen Würfel zu entwerfen und zu bauen.
+
+Die Teileliste war schnell kreiert:
+<ul>
+	<li>7 LEDs</li>
+	<li>7 Widerstände</li>
+	<li>1 ATTiny</li>
+	<li>1 Schüttelschalter</li>
+	<li>1 Knopfzelle</li>
+</ul>
+&nbsp;","ATTiny Würfel",,"draft","open","open",,,,,"2015-10-16 21:42:53","2015-10-16 19:42:53",,"0","https://gingerlabs.de/?p=1594","0","post",,"0"
+"1596","1","2015-11-02 16:40:14","2015-11-02 15:40:14","Vor Kurzem hatte ich mich gefragt, wie viel Strom eigentlich im Moment insgesamt verbraucht wird.  Natürlich hätte ich zum Stromzähler rennen können und anhand der Drehgeschwindigkeit der Scheibe bestimmen können, wie viel Strom gerade verbraucht wird. Aber das kann ich ja nicht die ganze Zeit machen.
+
+Daher die Idee, den Momentanverbrauch  mit einem Arduino auszulesen und an ein LC-Display zu senden.
+<h3>Das Ziel</h3>
+Ziel ist es, im Wohnzimmer, oder an einer anderen, strategisch sinnvollen Position, ein LC-Display hängen zu haben, dass alle wichtigen Informationen anzeigt.
+
+Was das Display anzeigen soll:
+
+<!--more-->
+<ul>
+	<li>Momentanverbrauch (in W / kW)</li>
+	<li>Grafische Darstellung des Momentanverbrauchs als Balken</li>
+	<li>24h-Verbrauch (in kWh)</li>
+	<li>eventuelle Darstellung des 24h-Verbrauchs als Graph</li>
+</ul>
+<h3>Das System</h3>
+Sensor am Stromzähler -&gt; Arduino -&gt; NRF24L01 &gt;&gt;&gt;&gt; NRF24L01 -&gt; Arduino -&gt; LCD
+
+[caption id=""attachment_1598"" align=""alignright"" width=""250""]<img class=""wp-image-1598"" src=""https://gingerlabs.de/wp-content/uploads/2015/11/nrf24l01.jpg"" alt=""NRF24L01"" width=""250"" height=""190"" /> NRF24L01-Modul[/caption]
+
+Damit die Informationen auch auf dem Display ankommen, müssen sie zuerst einmal durch einen Sensor am Stromzähler eingelesen werden. Die Sensordaten werden dann von einem Arduino ausgewertet und über ein NRF24L01-Funkmodul weitergesendet. Ein weiterer Arduino empfängt die Daten über ein NRF-Modul und zeigt diese dann auf einem LCD an.
+<h3>Der Sensor</h3>
+[caption id=""attachment_1600"" align=""alignright"" width=""800""]<a href=""https://gingerlabs.de/idee-arduino-momentanstromverbrauchsanzeige/olympus-digital-camera/"" rel=""attachment wp-att-1600""><img class=""size-full wp-image-1600"" src=""https://gingerlabs.de/wp-content/uploads/2015/11/energiezaehler_kpl_01.jpg"" alt=""Ferraris-Zähler"" width=""800"" height=""1070"" /></a> Ferraris-Zähler[/caption]
+
+Hier wird das Ganze etwas problematisch. Denn um den Stromverbrauch mit einem alten Ferraris-Zähler (die mit Drehscheibe) zu messen, muss ich die rote Markierung auf der Scheibe digital erkennen können. Das geht nur durch irgendeine Art optische Erkennung.
+
+Meine erste Idee war es, mit einer grünen LED und einem LDR erkennen zu können, ob sich unter dem Licht der LED gerade der silberne Teil der Scheibe, oder die rote Markierung befindet. Allerdings müsste die LED mit einer Linse auf einen Punkt der Scheibe fokussiert  werden, damit nicht zu viel Licht zum LDR zurückreflektiert wird. Man könnte die grüne LED auch durch eine grüne Laserdiode ersetzen, sofern diese in den beschränkten Platz des Schaltschranks passt.
+
+Durch ähnliche Projekte auf <a href=""https://www.mikrocontroller.net/"">mikrocontroller.net</a>  konnte ich mir noch einige weitere Anregungen einholen. Dort wurden Sensoren basierend auf Infrarotreflektionslichtschranken, Computermaussensoren, etc vorgeschlagen, die alle recht vielversprechend klingen.
+
+Sofern der Sensor funktioniert, stellt der Rest des Systems keine große Schwierigkeit mehr da. Der Arduino am Zähler muss die Pulse, die er in x Zeitabständen bekommt in Watt(-stunden) umrechnen und diese Daten dann über die NRF-Module an den zweiten Arduino senden, der diese dann nur noch schön auf dem LCD anzeigen muss.
+
+&nbsp;
+
+Bei Zeit werde ich die Theorie mit dem reflektierten grünen Licht testen und über die Ergebnisse berichten.","[Idee] Arduino Momentanstromverbrauchsanzeige",,"publish","open","open",,"idee-arduino-momentanstromverbrauchsanzeige",,,"2016-02-12 13:49:12","2016-02-12 12:49:12",,"0","https://gingerlabs.de/?p=1596","0","post",,"0"
+"1623","1","2015-11-17 18:18:27","2015-11-17 17:18:27","<p style=""text-align: justify;"">Einige kennen das vermutlich auch. Man ist für eine kurze Weile weg vom PC und schickt den Rechner deshalb in den Standby. Als man jedoch wiederkommt ist er wieder an!? Gruselig.</p>
+<p style=""text-align: justify;"">In den meisten Fällen lässt sich das Problem recht schnell auf die Maus o.ä. zurückführen, die sich einbildet, sie hätte sich noch einen Mikrometer bewegt und dadurch den PC wieder aufweckt. Dabei wiederum lässt sich der Täter im Normalfall durch ein einfaches
+<!--more--><code>powercfg -lastwake
+</code>in der Windows Konsole aufspüren.</p>
+<p style=""text-align: justify;"">In meinem Fall war das jedoch etwas anderes, denn <code>powercfg -lastwake</code> liefert mir kein einziges Gerät zurück, das den PC aufgeweckt haben sollte. Auch im Gerätemanager ist die ""Aufweckfähigkeit"" jedes Gerätes unterbunden und zur Sicherheit dürfen auch die Waketimer den PC nicht aufwecken.</p>
+<p style=""text-align: justify;"">An diesem Punkt konnte mir selbst Google nicht mehr weiterhelfen. Denn schließlich hatte ich schon alles getan, um unerwünschtes Aufwecken zu unterbinden. Sogar den Waketimern hatte ich ihre Weckfähigkeit entzogen</p>
+<p style=""text-align: justify;"">Denkste! Aus reiner Neugierde führte ich auch noch den Befehl
+<code>powercfg -waketimers</code> aus. Und siehe da: es war tatsächlich ein Waketimer aktiv!</p>
+<code>Der von [SERVICE] \Device\HarddiskVolume2\Windows\System32\svchost.exe (SystemEventsBroker) gesetzte Zeitgeber läuft um $in5min am $heute ab.
+Ursache: Die geplante Aufgabe ""NT TASK\Microsoft\Windows\UpdateOrchestrator\Reboot"" wird ausgeführt. Hierzu muss der Computer reaktiviert werden.</code>
+<p style=""text-align: justify;"">Aha! Der Computer muss dazu also reaktiviert werden... Komisch, da ich in den Energieeinstellungen den Waketimern doch eigentlich verboten hatte, den PC aufzuwecken. Ein kurzer Check bestätigt mir, Waketimer dürfen laut Einstellung den PC immer noch nicht aufwecken. Trotzdem hat es dieser getan. :o</p>
+<p style=""text-align: justify;"">An diesem Punkt sollte man wohl erwähnen, dass dieses Problem früher so nicht aufgetreten ist und erst seit der Installation von Windows 10 auftrat... Oh, hm, da hat einer bei Microschrott wohl wieder geschlampt und es geschafft, die Waketimer-Einstellung komplett zu ignorieren. (Ich frage mich echt warum ich immer noch bei denen bin... Achja, stimmt. Spiele.)</p>
+<p style=""text-align: justify;"">Also rein in die Aufgabenplanung und durchs Seitenmenü gehangelt (Microsoft &gt; Windows &gt; UpdateOrchestrator &gt; Reboot =&gt; Eigenschaften &gt; Bedingungen) und ein erneuter Aha-Moment: Da ist ja der fiese kleine Haken.</p>
+
+
+[caption id=""attachment_1625"" align=""aligncenter"" width=""632""]<a href=""https://gingerlabs.de/?attachment_id=1625""><img class=""wp-image-1625 size-full"" src=""https://gingerlabs.de/wp-content/uploads/2015/11/Reaktivieren.png"" alt=""Da haben wir den Lümmel!"" width=""632"" height=""480"" /></a> Da haben wir den Lümmel![/caption]
+<p style=""text-align: justify;"">Tja, seitdem der Haken draußen ist, hatte ich keinerlei Probleme mit dem zombieartigen Aufwachen meines PCs mehr. :)</p>
+&nbsp;
+
+Fazit: Windoof ist und bleibt eben immer noch eins: doof!","Hilfe, mein PC ist ein Zombie!",,"publish","open","open",,"hilfe-mein-pc-ist-ein-zombie",,,"2016-02-12 13:34:13","2016-02-12 12:34:13",,"0","https://gingerlabs.de/?p=1623","0","post",,"1"
+"1662","1","2016-01-10 16:58:27","2016-01-10 15:58:27","<blockquote>""Deleted code is debugged code.""
+
+<cite>Jeff Sickel</cite></blockquote>","Deleted code",,"publish","open","open",,"deleted-code",,,"2016-02-12 14:07:01","2016-02-12 13:07:01",,"0","https://gingerlabs.de/?p=1662","0","post",,"0"
+"1666","1","2016-01-27 22:35:09","2016-01-27 21:35:09","<blockquote>Da der gute Thomas von <a href=""https://nerdmind.de"" target=""_blank"" rel=""noopener"">nerdmind.de</a> mich darum gebeten hat, doch kurz einen Artikel über Reihen- und Parallelschaltung zu schreiben, ist er hier nun:</blockquote>
+<p style=""text-align: justify;"">Oft hört man die Begriffe Reihen- und Parallelschaltung. Einige dürften diese Begriffe bereits zur Schulzeit erklärt bekommen haben.  Für diejenigen, die das nicht (mehr) kennen, folgt nun eine mehr oder weniger kurze Erklärung dazu.</p>
+<p style=""text-align: justify;"">Vereinfacht kann man sich elektronische Stromkreise wie eine Straße vorstellen. Und die Elektronen, die z.B. durch eine Glühbirne fließen und diese zum Leuchten bringen, als Autos.</p>
+<p style=""text-align: justify;""><!--more--></p>
+<p style=""text-align: justify;"">Die Reihenschaltung entspricht einer einspurigen Straße, in der alle Autos (Strom) hintereinander fahren müssen. Hält nun ein Auto an, oder klafft in der Straße ein großes Loch, bleiben alle Autos stehen und können nicht mehr weiterfahren.</p>
+<p style=""text-align: justify;"">Eine Autobahn wäre dann eine Parallelschaltung, bei der es einige Fahrspuren gibt, auf denen die Autos fahren können.</p>
+<p style=""text-align: justify;"">In diesem Beispiel entspricht ein Verbraucher (beispielsweise ein Elektromotor, oder eine Lampe) dann einer bestimmten Stelle auf der Straße und solange Autos über diese Stelle fahren, dreht sich der Motor, bzw. leuchtet die Lampe.</p>
+<p style=""text-align: justify;"">Wenn wir uns das nun anhand dem Beispiel zweier Lichterketten ansehen, eine in Parallelschaltung und eine in Reihenschaltung, lassen sich recht schnell die Unterschiede der beiden Schaltungsarten erfassen.</p>
+
+<h3 style=""text-align: justify;"">Reihenschaltung</h3>
+<p style=""text-align: justify;""><a href=""https://gingerlabs.de/reihen-und-parallelschaltung/lichterkettereihe/"" rel=""attachment wp-att-1672""><img class=""size-full wp-image-1672 alignright"" src=""https://gingerlabs.de/wp-content/uploads/2016/01/LichterketteReihe-e1453914976164.jpg"" alt=""LichterketteReihe"" width=""440"" height=""147"" /></a></p>
+<p style=""text-align: justify;"">Zum einen gibt es die oft für Weihnachtsdekoration eingesetzten Lichterketten mit den kleinen Glühbirnchen, oft auch in Kerzenform. Diese sind meist alle in Reihe geschaltet und sobald eine der Birnchen herausgedreht wird, oder ausfällt, weil der Glühdraht im Inneren gebrochen ist, bleibt die ganze Kette dunkel und man muss jede Birne einzeln prüfen, um die Fehlerhafte zu finden.
+Oder um es vereinfacht auszudrücken: Über die Länge der einspurigen Straße sind diese bestimmten Stellen verteilt, aber es klafft ein Loch in der Straße, weshalb alle Autos stehen und nicht mehr über die bestimmten Stellen fahren können, und alle Verbraucher deshalb keinen Strom mehr erhalten.</p>
+
+
+[caption id=""attachment_1688"" align=""alignnone"" width=""1790""]<a href=""https://gingerlabs.de/reihenschaltung/"" rel=""attachment wp-att-1688""><img class=""size-full wp-image-1688"" src=""https://gingerlabs.de/wp-content/uploads/2016/01/Reihenschaltung-e1453973513601.png"" alt=""Eine Reihenschaltung"" width=""1790"" height=""384"" /></a> Eine Reihenschaltung[/caption]
+<h3>Parallelschaltung</h3>
+<p style=""text-align: justify;""><a href=""https://gingerlabs.de/reihen-und-parallelschaltung/lichterketteparallel/"" rel=""attachment wp-att-1671""><img class="" wp-image-1671 alignright"" src=""https://gingerlabs.de/wp-content/uploads/2016/01/LichterketteParallel-e1453915067454.jpg"" alt=""LichterketteParallel"" width=""261"" height=""158"" /></a></p>
+<p style=""text-align: justify;"">Zum anderen gibt es diese Outdoor-Party-Lichterketten, die aus normalen, eingefärbten Glühbirnen besteht. Da diese normale Glühbirnen verwenden, die auch in eine einzelne Lampenfassung geschraubt werden könnten, sind diese parallel geschalten. Sofern hier eine der Birnen kaputt geht, bleibt diese einfach aus, während die anderen weiterleuchten.
+Einfach gesagt gibt es hier pro Autobahnspur eine dieser bestimmten Stellen und wenn eine Spur ein Loch hat, dann wird die bestimmte Stelle dieser Spur eben nicht mehr überfahren und nur ein Verbraucher bleibt stromlos.</p>
+
+
+[caption id=""attachment_1687"" align=""alignnone"" width=""1564""]<a href=""https://gingerlabs.de/parallelschaltung/"" rel=""attachment wp-att-1687""><img class=""size-full wp-image-1687"" src=""https://gingerlabs.de/wp-content/uploads/2016/01/Parallelschaltung-e1453973486355.png"" alt=""Eine Parallelschaltung"" width=""1564"" height=""345"" /></a> Eine Parallelschaltung[/caption]","Reihen- und Parallelschaltung",,"publish","open","open",,"reihen-und-parallelschaltung",,,"2017-09-26 01:22:10","2017-09-25 23:22:10",,"0","https://gingerlabs.de/?p=1666","0","post",,"3"
+"1720","1","2016-01-30 14:31:47","0000-00-00 00:00:00",,"Modelleisenbahn digitalisieren",,"draft","open","open",,,,,"2016-01-30 14:31:47","2016-01-30 13:31:47",,"0","https://gingerlabs.de/?p=1720","0","post",,"0"
+"1722","1","2016-01-30 14:32:11","0000-00-00 00:00:00",,"Linux auf einem Taschenrechner",,"draft","open","open",,,,,"2016-01-30 14:32:11","2016-01-30 13:32:11",,"0","https://gingerlabs.de/?p=1722","0","post",,"0"
+"1730","1","2016-03-20 13:37:08","2016-03-20 12:37:08","<p style=""text-align: justify;""><a href=""/ssd-vs-hdd/#zumVergleich"">Hier</a> klicken, um direkt zum Vergleich zu gelangen.</p>
+<p style=""text-align: justify;"">Viele kennen das: Der PC ist langsam, braucht ewig zum hochfahren, Programme sind früher auch schon schneller gestartet und jeden Tag scheint der Rechner langsamer zu werden.</p>
+
+
+[caption id=""attachment_1737"" align=""alignright"" width=""410""]<a href=""https://gingerlabs.de/wp-content/uploads/2016/03/Taskmanager-7.jpg"" rel=""attachment wp-att-1737""><img class=""wp-image-1737 size-full"" src=""https://gingerlabs.de/wp-content/uploads/2016/03/Taskmanager-7.jpg"" alt=""Wenig Auslastung"" width=""410"" height=""274"" /></a> Wenig Auslastung[/caption]
+<p style=""text-align: justify;"">Trotz High-End PC braucht der Firefox 10 Sekunden, bis überhaupt mal das Fenster da ist. Schaut man in den Taskmanager (Windows 7) ist von Auslastung keine Rede. Wenige Prozent CPU-Auslastung und beim RAM ist auch noch die Hälfte frei. Wie kommt das?</p>
+<p style=""text-align: justify;"">
+<!--more-->
+</p>
+<p style=""text-align: justify;"">Nun, seit Windows 8 zeigt der Taskmanager unter dem Tab ""Leistung"" schon deutlich mehr Details, wie zum Beispiel die Datenträgerauslastung. Und die ist, wenn der Browser startet nämlich sehr hoch.</p>
+
+
+[caption id=""attachment_1738"" align=""alignnone"" width=""643""]<a href=""https://gingerlabs.de/wp-content/uploads/2016/03/HDD-usage.jpg"" rel=""attachment wp-att-1738""><img class=""wp-image-1738 size-full"" src=""https://gingerlabs.de/wp-content/uploads/2016/03/HDD-usage.jpg"" alt=""Datenträgerauslastung im Windows 10 Taskmanager"" width=""643"" height=""593"" /></a> Datenträgerauslastung im Windows 10 Taskmanager[/caption]
+<h2 style=""text-align: justify;"">Erklärung</h2>
+<p style=""text-align: justify;"">Wie man sieht, ist nicht die ""Leistung"" des PCs im ursprünglichen Sinn (CPU Leistung) für die Langsamkeit verantwortlich, sondern die Festplatte. In unserem Fallbeispiel eine normale HDD.</p>
+<p style=""text-align: justify;"">Dieser Flaschenhals kann durchaus beseitigt werden, das ist dann allerdings mit Geldausgeben und Computer aufschrauben verbunden.</p>
+<p style=""text-align: justify;"">Die Lösung: Eine SSD.</p>
+
+<h1 id=""zumVergleich"" style=""text-align: justify;"">SSD vs HDD</h1>
+<h3 style=""text-align: justify;"">Was sind SSDs und HDDs überhaupt?</h3>
+<p style=""text-align: justify;"">Eine HDD (hard disk drive) ist das, was wir unter einer klassischen Festplatte verstehen und besteht aus mehreren rotierenden Magnetscheiben, über die jeweils ein Schreib-/Lesekopf gleitet. Diese Köpfe sind an einem Arm befestigt, der die Köpfe über die Platten bewegt, damit diese auf jeder Stelle der Platten lesen/schreiben können.</p>
+<p style=""text-align: justify;"">Eine SSD (solid state drive) hingegen besteht nur aus Flash-Speicher-Bausteinen, wie man sie auch in USB-Sticks findet. Hier drehen sich keine Scheiben und es müssen auch keine Leseköpfe bewegt werden. Das steigert die Geschwindigkeit.</p>
+<p style=""text-align: justify;"">Ein Artikel über die einfache Funktionsweise von HDD und SSD ist in Arbeit.</p>
+
+<h3 style=""text-align: justify;"">Vergleich</h3>
+<p style=""text-align: justify;"">[table nl=""\\n""]
+Kriterium,SSD,HDD
+Mechanische Teile,Keine,Rotierende Platten\nBeweglicher Schreib-/Lesearm
+Anfällig für Stürze,Im Normalbetrieb nicht,Beim Fall von Tischhöhe Headcrash möglich \n=&gt; Datenverlust.
+Gewicht,ca. 40g,""ca. 750g (3,5"""" HDD)""
+Geräuschentwicklung,Keine,Während Lese-/Schreibvorgängen durchaus wahrnehmbar
+Stromverbrauch,ca. 1-2W,ca. 7-9W
+Zugriffszeit,""ca. 0,1ms"",ca. 9-15ms
+Geschwindigkeit,""sowohl bei verstreuten, als auch bei großen Dateien sehr hoch"",""bei verstreuten Dateien niedrig,\nbei großen Dateien moderat""
+Preis pro Gigabyte,ca. 25ct,ca. 4ct
+Anwendungszweck,Boot-Medium\nZwischenspeicher,Datenspeicher\nBackup-Medium
+[/table]</p>
+<p style=""text-align: justify;"">Der Hauptunterschied zwischen den beiden Laufwerksarten liegt in erster Linie in der Geschwindigkeit. Eine SSD kann viele gleichzeitige Anfragen deutlich zügiger verarbeiten, als eine HDD.</p>
+<p style=""text-align: justify;"">Damit eine HDD eine bestimmte Datei von der Festplatte lesen kann, muss sie erst einmal mit dem Schreib-/Lesearm zu der entsprechenden Datei hinfahren. Dies geschieht zwar in wenigen Millisekunden, aber wenn das Betriebssystem (wie zum Beispiel beim Systemstart) viele Dateien laden muss, summiert sich das eben auf.</p>
+<p style=""text-align: justify;"">Diese Zeit entfällt bei einer SSD, da diese keine mechanischen Teile besitzt. Um eine Datei zu laden muss sie nur verschiedene Signale an den Flash-Chip schicken, wodurch die Zugriffszeit bei unter 0,1 Millisekunden liegt.</p>
+<p style=""text-align: justify;"">Der Startvorgang von Windows wird also bei einer SSD deshalb so stark beschleunigt, da bei diesem viele unterschiedliche Dateien von der Festplatte gelesen werden müssen und die SSD, entgegen der HDD, nicht für jede einzelne Datei den Lesearm zu dieser bewegen muss, sondern die Dateien einfach direkt nacheinander laden kann. Somit schrumpft eine Startzeit von knapp über einer Minute auf wenige Sekunden.</p>
+<p style=""text-align: justify;"">Auch im späteren Betrieb zeigt sich der Vorteil einer SSD. Programme öffnen deutlich schneller, die Wartezeit nach dem Anmelden wird auf ein Minimum reduziert, das ganze Betriebssystem erscheint einfach deutlich flüssiger.</p>
+<p style=""text-align: justify;"">Soweit schön und gut, doch bei so viel zusätzlichem Komfort ohne augenscheinliche Nachteile gibt es natürlich einen Haken: Den Preis.</p>
+<p style=""text-align: justify;"">Während man eine SSD von Samsung mit einer Kapazität von 250GB zu einem Preis von 85€ (Stand: März 2016) erstehen kann, bekommt man für das gleiche Geld eine HDD mit einer Kapazität von 3TB, also 12 mal so viel.</p>
+
+<h3 style=""text-align: justify;"">Fazit</h3>
+<p style=""text-align: justify;"">Eine SSD ist für einen heutigen PC/Laptop ein Muss. Wenn auch nur eine Kleine (128/256GB) als Bootmedium. Die Beschleunigung, die ein PC dadurch erfährt ist einfach enorm. (<a href=""https://www.youtube.com/watch?v=hyVDEh28ZmA"" target=""_blank"">Hier</a> ein Videovergleich)</p>
+<p style=""text-align: justify;"">In einen PC kann man zusätzlich noch eine normale Festplatte mit ein paar Terabyte einbauen, auf der dann größere Daten (z.B. die Musiksammlung, oder das Fotoarchiv) und selten genutzte Programme abgelegt werden können.</p>
+<p style=""text-align: justify;"">Dies fällt bei einem Laptop jedoch schwer, da diese meist nur einen einzigen Festplattenschacht besitzen. Hier muss man sich im Voraus überlegen, wie viel Daten man ohne externe Festplatte mit sich herumtragen muss und eine SSD in entsprechender Größe kaufen, denn immer eine externe HDD mit sich herumzutragen, ist auf lange Sicht auch unpraktisch.</p>
+<p style=""text-align: justify;"">Somit: SSD &gt; HDD.</p>","SSD vs HDD, oder: Warum mein PC so langsam ist",,"publish","open","open",,"ssd-vs-hdd",,,"2016-03-20 21:24:35","2016-03-20 20:24:35",,"0","https://gingerlabs.de/?p=1730","0","post",,"3"
+"1734","1","2016-03-19 13:47:22","0000-00-00 00:00:00","Oft hört man die Begriffe SSD und HDD. Doch was bedeuten sie und wie funktionieren die beiden Datenträger? Das wird in diesem Artikel erklärt.
+
+&nbsp;
+<h2>HDD</h2>
+Befassen wir uns erst einmal mit dem am weitest verbreiteten Speichermedium im Computerbereich: Der HDD.
+
+Doch wofür steht HDD überhaupt?
+
+HDD ist eine englische Abkürzung ""Hard Drive Disk"" (frei übersetzt: Festplattenlaufwerk)","Funktionsweise von SSD und HDD einfach erklärt",,"draft","open","open",,"funktionsweise-von-ssd-und-hdd-einfach-erklaert",,,"2016-03-19 13:47:22","2016-03-19 12:47:22",,"0","https://gingerlabs.de/?p=1734","0","post",,"0"
+"1788","1","2016-03-29 16:53:56","2016-03-29 14:53:56","Der Bot ist nun auf ChatFuel umgestellt und postet nun auch automatisch an @GingerLabs.","ChatFuel Test",,"draft","open","open",,"chatfuel-test",,,"2016-03-29 16:57:12","2016-03-29 14:57:12",,"0","https://gingerlabs.de/?p=1788","0","post",,"0"
+"1792","1","2016-05-05 03:09:41","2016-05-05 01:09:41","<a href=""https://gingerlabs.de/froxlor-customer-sftp-scp-zugang/sftp/"" rel=""attachment wp-att-1810""><img class=""alignright wp-image-1810"" src=""https://gingerlabs.de/wp-content/uploads/2016/05/sftp-e1462410412205.png"" alt=""SFTP Logo"" width=""131"" height=""117"" /></a>Da ich mich enorm daran störte, dass ich nicht einfach per SFTP (über WinSCP) Dateien auf meine share-Subdomain hochladen konnte, wollte ich dies endlich einmal ändern.
+
+<a href=""froxlor-customer-sftp-scp-zugang/#sfs"">Hier</a> geht es direkt zur Schritt-für-Schritt Anleitung
+
+<!--more-->
+
+Für meine Webserver-Konfiguration kommt <a href=""https://www.froxlor.org/"">froxlor </a>zum Einsatz. Dieses Management Interface bietet unter anderem die Möglichkeit, einzelne Customer zu erstellen, denen dann Subdomains zugewiesen werden können. Ich für meinen Teil habe für jede Domain einen einzelnen Customer, um diese schön zu trennen.
+
+Nach vielem Herumprobieren bin ich auf eine akzeptable Lösung gekommen, damit sich der Benutzer über SFTP einloggen kann und auf sein Verzeichnis, aber nicht auf andere Verzeichnisse zugreifen kann.
+
+Für jeden froxlor-Customer wird standardmäßig ein ""virtueller"" Linux-Benutzer angelegt. Mit diesem kann man allerdings in der Standard-Konfiguration nicht viel anfangen. Damit man diese Benutzer z.B. zum Einloggen benutzen kann, muss man im froxlor-Interface erst einmal libnss-mysql aktivieren. (System &gt; Configuration &gt; $Distro &gt; Other (System) &gt; libnss-mysql)
+
+Nachdem dies eingerichtet wurde, sind die froxlor-Customer normale Linux-Benutzer, allerdings können diese sich standardmäßig nicht über SSH einloggen, da bei diesen die <code>/bin/false</code>-Shell eingestellt ist, was sie aber auch nicht können müssen.
+
+Damit der SFTP-Benutzer nicht auf andere Ordner zugreifen darf, muss er in einem Chroot-Jail eingesperrt werden. Dazu muss aber jeder Ordner bis zum jail-Ordner von Root besessen werden. Standardmäßig befinden sich die Customer-Ordner aber in einem Unterordner im froxlor-Ordner. Dieser darf aber nicht von Root besessen werden, da sonst froxlor nicht mehr in den Ordner schreiben darf, was es aber weiterhin können muss.
+Also wird der Customer-Ordner in einen separaten Ordner (in einem von Root besessenen Ordner) gemountet.
+<h3 id=""sfs"">Disclaimer</h3>
+Die Ausführung der folgenden Befehle geschieht auf eigene Gefahr. Für zerschossenen Server-Konfigurationen o.ä. übernehme ich keinerlei Haftung.
+<h3>Schritt-für-Schritt</h3>
+Also ergibt sich folgender Schritt-für-Schritt-Ablauf:
+<h4>Einmalige Schritte</h4>
+<ol>
+ 	<li>libnss-mysql in froxlor aktivieren
+(System &gt; Configuration &gt; $Distro &gt; Other (System) &gt; libnss-mysql)</li>
+ 	<li><code>sudo groupadd sftpUser</code></li>
+ 	<li><code>sudo mkdir /home/sftpUsers</code></li>
+ 	<li>folgende Zeilen in <code>/etc/ssh/sshd_config</code> einfügen
+<pre>Match Group sftpUser
+    ChrootDirectory /home/sftpUsers/%u
+    ForceCommand internal-sftp</pre>
+</li>
+ 	<li><code>sudo systemctl restart sshd</code></li>
+</ol>
+<h4>Schritte pro Benutzer</h4>
+Diese Schritte muss man jeweils für jeden Benutzer ausführen, dem man SFTP-Zugang gewähren möchte.
+
+ACHTUNG! Unbedingt bei jedem Befehl $U durch den entsprechenden Customer-Username ersetzen (z.B. <code>share</code>)
+<ol>
+ 	<li>[optional] Froxlor Customer anlegen (es kann auch ein bereits Bestehender benutzt werden)</li>
+ 	<li><code>sudo usermod -aG sftpUser <strong>$U</strong></code></li>
+ 	<li><code>sudo mkdir /home/sftpUsers/<strong>$U</strong></code></li>
+ 	<li><code>sudo mkdir /home/sftpUsers/<strong>$U</strong>/html</code></li>
+ 	<li><code>sudo chown <strong>$U</strong>:<strong>$U</strong>/home/sftpUsers/<strong>$U</strong>/html</code></li>
+ 	<li><code>sudo mount --bind /var/customers/webs/<strong>$U</strong> /home/sftpUsers/<strong>$U</strong>/html</code></li>
+ 	<li><code>sudo -i</code></li>
+ 	<li><code>echo '/var/customers/webs/<strong>$U</strong> /home/sftpUsers/<strong>$U</strong>/html    none  bind' &gt;&gt; /etc/fstab</code></li>
+ 	<li><code>exit</code></li>
+ 	<li><code>sudo nscd --invalidate=passwd</code></li>
+</ol>
+&nbsp;
+
+Nun sollte man sich über SFTP/SCP mit den froxlor-Zugangsdaten des jeweiligen Customers einloggen können und lediglich einen html-Ordner sehen. Durch diesen kann man auf den Document-Root des Customers zugreifen, also z.B. eine neue index.html hochladen.
+
+&nbsp;
+
+&nbsp;","Froxlor Customer SFTP/SCP Zugang",,"publish","open","open",,"froxlor-customer-sftp-scp-zugang",,,"2016-05-23 22:44:58","2016-05-23 20:44:58",,"0","https://gingerlabs.de/?p=1792","0","post",,"3"
+"1821","1","2016-07-12 14:43:57","2016-07-12 12:43:57","<blockquote>
+<p style=""text-align: justify;"">Pokémon GO, the hype is real.</p>
+</blockquote>
+<p style=""text-align: justify;""><a href=""https://gingerlabs.de/169/""><img class=""alignright size-full wp-image-1836"" src=""https://gingerlabs.de/wp-content/uploads/2016/07/169.jpg"" alt=""Pokemon Go Logo"" width=""578"" height=""327"" /></a>Es kursieren viele veschiedene APK downloads für das Spiel Pokémon GO. Allerdings ist auch die dunkle Seite des Internets auf den Hype aufmerksam geworden und verteilt mithilfe APKs aus dubioser Quellen Viren und Trojaner.</p>
+<p style=""text-align: justify;"">Die Seite APKmirror scannt jede hochgeladene APK nach Schädlingen und gibt Apps nur frei, wenn diese sauber sind.</p>
+<p style=""text-align: justify;"">Deshalb hier der <a href=""http://www.apkmirror.com/apk/niantic-inc/pokemon-go/pokemon-go-0-29-0-release/pokemon-go-0-29-0-android-apk-download/"">vertrauenswürdige Downloadlink für die Pokémon GO APK</a></p>
+<p style=""text-align: justify;"">Und hier der <a href=""http://www.apkmirror.com/wp-content/uploads/uploaded/577c4dce32f56/com.nianticlabs.pokemongo_0.29.0-2016070500_minAPI19(armeabi-v7a)(nodpi)_apkmirror.com.apk"">Direktlink</a></p>
+<p style=""text-align: justify;""><!--more--></p>
+<p style=""text-align: justify; font-size: 10pt;"">© 1995–2016 Nintendo/Creatures Inc./GAME FREAK inc. Pokémon, Pokémon character names, Nintendo 3DS, Nintendo DS, Wii, Wii U, and Wiiware are trademarks of Nintendo.</p>","Pokémon GO Vertrauenswürdiger APK Download",,"private","open","open",,"pokemon-go-vertrauenswuerdiger-apk-download",,,"2017-01-29 23:30:43","2017-01-29 22:30:43",,"0","https://gingerlabs.de/?p=1821","0","post",,"0"
+"1827","1","2016-07-15 01:58:29","2016-07-14 23:58:29","[caption id=""attachment_1835"" align=""alignright"" width=""183""]<a href=""https://gingerlabs.de/b925d8ad974fc5e30901dfcf78ca14e8_400x400/""><img class=""wp-image-1835"" src=""https://gingerlabs.de/wp-content/uploads/2016/07/b925d8ad974fc5e30901dfcf78ca14e8_400x400-e1468541679837.png"" alt=""Screencloud Logo"" width=""183"" height=""126"" /></a> Screencloud Logo[/caption]
+<p style=""text-align: justify;"">Da ich gerade testweise einer Linux Distribution (Kubuntu 16.04) erneut eine Chance gebe, bei mir als Produktivsystem eingesetzt zu werden (sowohl Desktop als auch Laptop), bin ich  vor kurzem auf die erste größere Hürde gestoßen. Und zwar war es mir aufgrund der fehlenden <code>libqtmultimediakit</code> Bibliothek nicht möglich, die screencloud .deb zu installieren.</p>
+<p style=""text-align: justify;"">Kurz und knapp habe ich folgende Schritte befolgt, um screencloud trotzdem zu installieren:</p>
+<!--more-->
+<ul>
+ 	<li><a href=""http://de.archive.ubuntu.com/ubuntu/pool/universe/q/qtmobility/libqtmultimediakit1_1.2.0-1ubuntu2_amd64.deb"">Diese libqtmultimediakit .deb</a> herunterladen und installieren</li>
+ 	<li><code>sudo sh -c ""echo 'deb http://download.opensuse.org/repositories/home:/olav-st/xUbuntu_15.10/ /' &gt;&gt; /etc/apt/sources.list.d/screencloud.list""</code></li>
+ 	<li><code>sudo apt update</code></li>
+ 	<li><code>sudo apt install screencloud</code></li>
+</ul>
+<p style=""text-align: justify;"">Nun hatte ich aber immer noch folgenden Fehler beim Starten von screencloud mit SFTP Plugin:</p>
+<code>ImportError: No module named Crypto.PublicKey</code>
+<p style=""text-align: justify;"">Das konnte durch ein einfaches <code>sudo pip install crypto pycrypto</code> behoben werden.</p>
+&nbsp;
+<p style=""text-align: justify;"">Ich nutze das SFTP Plugin, um Bilder automatisch auf meinen vServer hochladen zu lassen und den Link in die Zwischenablage zu bekommen (macht das Teilen von Bildern über nur-Text-Chat deutlich einfacher).</p>
+Hier sind meine Einstellungen:
+
+[caption id="""" align=""alignnone"" width=""376""]<img src=""https://share.gingerlabs.de/screen_2016-07-15_01-55-14_f0HvPttW.png"" width=""376"" height=""164"" /> Einstellungen des SFTP-Plugins[/caption]
+<p style=""text-align: justify;"">Der Name <code>screen_%Y-%m-%d_%H-%M-%S_{rnd_s}</code> sorgt dafür, dass der Dateiname gemäß dem gegebenen Muster erzeugt wird (Beispiel in der letzten Zeile des Screenshots.</p>
+<p style=""text-align: justify;""></p>
+<p style=""text-align: justify;"">Erhaltene Fehlermeldungen mit anderen Installationsmethoden:</p>
+
+<ul>
+ 	<li style=""text-align: justify; font-size: 12px;""><code>/opt/screencloud/screencloud: error while loading shared libraries: libquazip.so.0: cannot open shared object file: No such file or directory</code></li>
+ 	<li style=""text-align: justify; font-size: 12px;""><code>The following packages have unmet dependencies:
+screencloud : <strong>Depends: libqtmultimediakit1</strong> but it is not installable
+<em>E: Unable to correct problems, you have held broken packages.</em></code></li>
+</ul>","Screencloud unter Ubuntu 16.04 installieren",,"publish","open","open",,"screencloud-unter-ubuntu-16-04-installieren",,,"2016-07-16 14:14:23","2016-07-16 12:14:23",,"0","https://gingerlabs.de/?p=1827","0","post",,"0"
+"1846","1","2016-07-20 08:00:36","2016-07-20 06:00:36","<p style=""text-align: justify;"">Ich hatte noch einen ESP8266 herumliegen, der seinen Einsatzzweck suchte. Also musste eine Projektidee her. Irgendwas mit IoT: immer gut. Akkubetrieben: sollte es schon sein. Telegram-Anbindung: immer doch! Also ab an die Planung.</p>
+<p style=""text-align: justify;""><!--more--></p>
+
+<h2 style=""text-align: justify;"">Idee</h2>
+<p style=""text-align: justify;"">Eine Art SmartButton, der auf Knopfdruck eine Nachricht an einen Nutzer sendet, ähnlich einer Klingel.</p>
+
+<h2>Umsetzung</h2>
+Die benötigten Materialien umfassen:
+<ul>
+ 	<li>ESP8266 <a href=""http://www.banggood.com/Upgraded-Version-1M-Flash-ESP8266-ESP-01-WIFI-Transceiver-Wireless-Module-p-979509.html?p=U530099241512014110R"" target=""_blank"">ESP-01 Modul</a></li>
+ 	<li>18650 Li-Ion Zelle aus einem alten Laptop Akku</li>
+ 	<li><a href=""http://www.banggood.com/5Pcs-DIY-Battery-Box-Holder-Case-For-18650-Rechargeable-Battery-p-965083.html?p=U530099241512014110R"" target=""_blank"">18650 Halter</a></li>
+ 	<li><a href=""http://www.banggood.com/5Pcs-USB-Lithium-Battery-Charger-Module-With-Charging-And-Protection-p-943768.html?p=U530099241512014110R"" target=""_blank"">Lithium Lade- und Schutzmodul</a></li>
+ 	<li><a href=""http://www.banggood.com/5V-To-3_3V-DC-DC-Step-Down-Power-Supply-Buck-Module-AMS1117-800MA-p-933674.html?p=U530099241512014110R"" target=""_blank"">3,3V Linearregler</a></li>
+ 	<li>Knopf</li>
+ 	<li>Kartonschachtel</li>
+</ul>
+<p style=""text-align: justify;"">Der Grundaufbau musste natürlich erst einmal auf einem Breadboard getestet werden.</p>
+
+
+[caption id=""attachment_1849"" align=""aligncenter"" width=""1936""]<a href=""https://gingerlabs.de/wp-content/uploads/2016/07/Breadboard_bb-e1468979122227.png""><img class=""wp-image-1849 size-full"" src=""https://gingerlabs.de/wp-content/uploads/2016/07/Breadboard_bb-e1468979122227.png"" alt=""Grober Test-Aufbau "" width=""1936"" height=""1059"" /></a> Grober Test-Aufbau[/caption]
+
+Der ESP bootet. Soweit so gut, nun zum spaßigen Teil...
+<h2>Programmierung</h2>
+<p style=""text-align: justify;"">Ich lasse im Normalfall meinen <a href=""https://github.com/LeoDJ/IoT-in-the-box"" target=""_blank"">Code</a> für sich sprechen, aber kurz zur Funktionsweise:</p>
+<p style=""text-align: justify;"">Der ESP ist als Client im lokalen WiFi-Netz angemeldet und kann per <a href=""https://github.com/witnessmenow/ESP8266-TelegramBot"" target=""_blank"">ESP8266TelegramBOT</a> library <a href=""https://telegram.org"" target=""_blank"">Telegram</a> Nachrichten senden und empfangen. Er prüft alle 15 Sekunden, ob er neue Nachrichten empfangen hat (z.B. <code>/status</code>, o.ä.) und reagiert auf diese. Auf Knopfdruck sendet er eine vordefinierte Nachricht an einen vordefinierten Telegram-Chat (egal ob Gruppe, oder Einzelperson). Wenn die Versorgungsspannung unter eine bestimmte Schwelle fällt wird auch eine Telegram-Nachricht versandt, damit der Akku rechtzeitig wieder aufgeladen werden kann.</p>
+<p style=""text-align: justify;"">Da das ESP-01 Modul allerdings aufgrund einer Hardware-Beschränkung nicht in den ""Deep Sleep""-Modus wechseln kann und dies in unserem Falle auch nicht gewünscht ist, da er auf Nachrichten reagieren muss, bzw. selbst welche versendet, benötigt der ESP im idle 20-30mA und der 2600mAh 18650 Li-Ion Akku hält somit nur wenige Tage durch.</p>
+
+
+[caption id="""" align=""alignright"" width=""3264""]<a href=""https://tzapu.com/wp-content/uploads/2015/12/ESP8266-battery-deep-sleep-mod-esp01.jpg""><img src=""https://tzapu.com/wp-content/uploads/2015/12/ESP8266-battery-deep-sleep-mod-esp01.jpg"" alt=""ESP8266 ESP-01"" width=""3264"" height=""2448"" /></a> Deep-Sleep-Mod[/caption]
+<p style=""text-align: justify;"">Wenn man die Funktionalität nun auf das Mindeste beschränken würde und nur aufwacht wenn der Knopf gedrückt wird, den ESP mit einer <a href=""http://hackaday.com/2015/02/08/hack-allows-esp-01-to-go-to-deep-sleep/"" target=""_blank"">Hardware-Modifikation</a> versehen würde, damit er in den Deep Sleep wechseln kann und einen 3,3V Spannungsregler mit sehr niedrigem Ruhestrom verwenden würde (deutlich niedriger als die ca. 3mA des 1117), dann ist eine Akkulaufzeit von mehreren Monaten durchaus möglich.</p>
+<p style=""text-align: justify;"">Nachdem der Code nun auf dem Breadboard-Aufbau einwandfrei funktionierte, natürlich erst nach dem Fixen einiger Bugs, ging es nun darum, den Aufbau permanent zu machen.</p>
+
+<h2 style=""text-align: justify;"">Hardware</h2>
+<p style=""text-align: justify;"">Als Gehäuse dient eine alte Verpackungs-Schachtel für irgendwas Kleines.</p>
+
+
+[caption id=""attachment_1856"" align=""alignright"" width=""565""]<a href=""https://gingerlabs.de/wp-content/uploads/2016/07/v1.1_inside.jpg"" rel=""attachment wp-att-1856""><img class=""wp-image-1856"" src=""https://gingerlabs.de/wp-content/uploads/2016/07/v1.1_inside.jpg"" alt=""Innenleben von IoT in a Box"" width=""565"" height=""741"" /></a> Innenleben von IoT in a Box[/caption]
+<p style=""text-align: justify;"">Zuerst habe ich alles provisorisch eingepasst, danach die Aussparungen in die Schachtel geschnitten / gestochen und die Einzelteile verkabelt und verlötet. Zum Schluss habe ich noch alle Bauteile hochprofessionell mit Heißkleber fixiert.</p>
+<p style=""text-align: justify;"">Und somit war dieses Projekt auch vollendet.</p>
+<p style=""text-align: justify;"">Wie immer steht der Quellcode auf meinem <a href=""https://github.com/LeoDJ"" target=""_blank"">GitHub Account</a> zur Verfügung.</p>
+
+
+[caption id=""attachment_1855"" align=""aligncenter"" width=""1024""]<a href=""https://gingerlabs.de/wp-content/uploads/2016/07/v1.1_charging.jpg"" rel=""attachment wp-att-1855""><img class=""wp-image-1855"" src=""https://gingerlabs.de/wp-content/uploads/2016/07/v1.1_charging.jpg"" alt=""ESP8266_SmartButton_Outside"" width=""1024"" height=""629"" /></a> Vollendete IoT Box[/caption]
+
+Edit: Hier geht es zu <a href=""https://gingerlabs.de/2017/03/iot-in-the-box-v1-1/"">Part 2</a>","IoT in the Box mit dem ESP8266",,"publish","open","open",,"iot-in-the-box-mit-dem-esp8266",,,"2017-03-29 12:59:50","2017-03-29 10:59:50",,"0","https://gingerlabs.de/?p=1846","0","post",,"0"
+"1876","1","2017-03-29 12:50:04","2017-03-29 10:50:04","<p style=""text-align: justify;"">Hm, jetzt steht da so eine IoT Box mit Knopf hier rum und so wirklich nützlich ist sie jetzt auch nicht, da durch die bereits angesprochenen Einschränkungen nicht outdoor-tauglich. Also was damit machen? Richtig, upgraden!</p>
+<p style=""text-align: justify;""><!--more--></p>
+
+<h2 style=""text-align: justify;"">Ziel des Upgrades</h2>
+Es sollen die Temperaturen innerhalb meines Zimmers und außerhalb auf dem Balkon gemessen werden und die Daten der Einfachheit halber zu <a href=""https://thingspeak.com/"">Thingspeak</a> zur Visualisierung geschickt werden.
+
+So nun aber ab ans Projekt:
+<h3 style=""text-align: justify;"">Temperatursensoren</h3>
+<p style=""text-align: justify;"">Ich hatte vor langer Zeit mal die <a href=""http://www.banggood.com/5Pcs-DS18B20-Temperature-Sensor-DALLAS-18B20-TO-92-Encapsulation-p-953365.html?p=U530099241512014110R"">Dallas DS18B20 1-Wire Temperatursensoren</a> bestellt. Diese Sensoren sind echt klasse, sie haben</p>
+
+<ul>
+ 	<li style=""text-align: justify;"">Einen Messbereich von -55°C bis +125°C</li>
+ 	<li style=""text-align: justify;"">Die Möglichkeit, über die Datenleitung mit Strom versorgt zu werden und benötigen dadurch nur 2 Anschlusskabel</li>
+ 	<li style=""text-align: justify;"">Man kann mehrere Sensoren an den gleichen Bus hängen und diese anhand der bereits einprogrammierten UID auseinander halten</li>
+</ul>
+<h3>Hardwareerweiterung</h3>
+Die Hardware aus <a href=""https://gingerlabs.de/2016/07/iot-in-the-box-mit-dem-esp8266/"">Version 1.0</a> wurde nur minimal modifiziert. Ich habe eine Aussparung vorne in den Karton geschnitten und dahinter eine 2-polige Lüsterklemme geklebt.  Einen Pol habe ich direkt mit der Ground-Rail verbunden und den anderen mit dem letzten freien GPIO Pin.
+
+Um die Sensoren über die Datenleitung mit Strom zu versorgen, muss man an diese noch einen Pullup-Widerstand anschließen. Für diesen ist ein Wert von 4,7 kΩ empfohlen.
+
+[caption id=""attachment_1857"" align=""alignright"" width=""656""]<a href=""https://gingerlabs.de/2017/03/iot-in-the-box-v1-1/v1-2_inside/"" rel=""attachment wp-att-1857""><img class=""wp-image-1857 size-full"" src=""https://gingerlabs.de/wp-content/uploads/2016/07/v1.2_inside.jpg"" alt="""" width=""656"" height=""1019"" /></a> Innereien der IoT Box 1.1[/caption]
+
+Es ist nicht so schön geworden, wie es sein könnte, aber solange es funktioniert bin ich zufrieden.
+
+An die Lüsterklemme wurde nun ein Sensor für drinnen mit einem kurzen Kabel parallel zu einem 2-3m langen Kabel für den Außensensor angeschlossen.
+
+Ich hatte zuerst bedenken, dass diese Kabellänge zu Störungen führen könnte, aber nach einigen Tests stellte sich heraus, dass der Sensor genau so zuverlässig arbeitet, wie der an dem kurzen Kabel.
+
+Damit der Außensensor nicht so stark durch die Luftfeuchtigkeit in Mitleidenschaft gezogen wird, habe ich die Lüsterklemme, mit der er am Ende des Kabels befestigt ist, mit Heißkleber versiegelt.
+
+[caption id=""attachment_1858"" align=""alignnone"" width=""838""]<a href=""https://gingerlabs.de/2017/03/iot-in-the-box-v1-1/v1-2_sensors/"" rel=""attachment wp-att-1858""><img class=""size-full wp-image-1858"" src=""https://gingerlabs.de/wp-content/uploads/2016/07/v1.2_sensors.jpg"" alt="""" width=""838"" height=""587"" /></a> angeschlossene Sensoren[/caption]
+
+Der Außensensor hängt nun unter dem Dach vom Balkon und das Kabel führt durch mein Fenster zur IoT Box.
+<h3>Software</h3>
+First things first, Link zum <a href=""https://github.com/LeoDJ/IoT-in-the-box/blob/master/TempLogger/src/TempLogger.cpp"">Code auf Github</a>.
+
+Die Software besteht hauptsächlich aus dem Auslesen der Sensoren und Senden der Werte zu Thingspeak.
+
+Der Code könnte etwas besser strukturiert sein, aber dazu hatte ich nach all den Monaten bei weitem keine Lust mehr, daher release ich ihn as-is.
+<h3>Fazit</h3>
+Der Sensor sammelt nun seit September 2016 fleißig Daten und stellt diese auch auf der <a href=""https://thingspeak.com/channels/137258"">Thingspeak Seite</a> schön dar. (Aktuell sind es ~72.000 Datenpunkte, Stand März 2017).
+
+Da der Sensor sich leider auf dem Balkon, also nah am Haus, und auch noch auf der Südseite befindet, ist die Genauigkeit der Minimal-/Maximalwerte nicht so hoch. Denn im Sommer heizt sich die Luft unter dem Balkondach durch die Sonneneinstrahlung ordentlich auf und im Winter strahlen die Hauswände Wärme ab. Aber die durchschnittliche Temperatur ist im Großen und Ganzen okay.
+
+Besonders nützlich sind die 2 Sensoren besonders im Sommer, dann kann man abends nämlich immer sehen, ab wann es draußen kälter ist, als drinnen und es sich lohnt, das Fenster aufzumachen.
+
+&nbsp;","IoT in the Box v1.1 - Jetzt mit Temperaturfühler!",,"publish","open","open",,"iot-in-the-box-v1-1",,"
+https://gingerlabs.de/2016/07/iot-in-the-box-mit-dem-esp8266/","2017-03-29 12:50:05","2017-03-29 10:50:05",,"0","https://gingerlabs.de/?p=1876","0","post",,"0"
+"1883","1","2017-01-31 16:19:38","0000-00-00 00:00:00","Dem Coworking Space wurde letztens ein altes Multifunktionsgerät geschenkt. Nur leider kamen die Transporteure auf die grandiose Idee, den Drucker in Office-Größe nicht aufrecht, sondern auf der Seite zu transportieren.
+
+Das hat der eingelegten Tonerkartusche natürlich gar nicht gefallen und der Toner hat sich flugs aus der Kartusche befreit und sich im ganzen restlichen Drucker verteilt.<!--more-->
+
+Letzten Montag haben wir uns also mit einem Tonerstaubsauger und Werkzeug bewaffnet an die Reinigung des Monstrums gemacht.
+<h3>Austreibung des Dämons // aka Reinigung</h3>
+&nbsp;","Eine Geschichte von Dämonen und Druckern",,"draft","open","open",,,,,"2017-01-31 16:19:38","2017-01-31 15:19:38",,"0","https://gingerlabs.de/?p=1883","0","post",,"0"
+"1889","1","2017-01-31 15:15:49","2017-01-31 14:15:49","<p style=""text-align: justify;"">Für alle, die sich wundern, nein, ich bin nicht tot. Ich hatte lediglich in letzter Zeit wenig Zeit (und Lust), aktiv an dem Projekt Blog weiterzuarbeiten.</p>
+<p style=""text-align: justify;"">In der Zwischenzeit hat sich viel getan...</p>
+<!--more-->
+<h3>Schulisch</h3>
+<p style=""text-align: justify;"">Ich habe mein Duales Studium der Angewandten Informatik bei Lidl begonnen und stecke aktuell in der Theoriephase an der dualen Hochschule.</p>
+
+<h3>Freizeitlich</h3>
+<p style=""text-align: justify;"">Außerdem habe ich eine super Community im <a href=""https://twitter.com/CoworkingHN"">Coworking Space Heilbronn</a> kennen gelernt, die jeden Donnerstag Abend einen <a href=""https://www.meetup.com/de-DE/codeforhn/"">Coding Abend</a> veranstaltet, bei dem man gemeinsam an Projekten rund um Open Data und mehr arbeiten kann.</p>
+<p style=""text-align: justify;"">Dort habe ich bereits an einigen Projekten, wie z.B. Farmbot, Materix und vielen weiteren kleinen Projekten mitgearbeitet und auch zeitweise an eigenen Projekten von mir gearbeitet. Alles in allem ist es ein schönes Beisammensein und ein guter Ort zum geistigen Austausch.</p>
+
+<h3>Projekte</h3>
+<p style=""text-align: justify;"">Dadurch, dass ich jeden Donnerstag Abend die Möglichkeit habe, an vielen verschiedenen Projekten zu arbeiten, ist die Motivation, eigene Projekte zuhause weiter durchzuziehen eher gesunken, aber trotzdem kam über die Monate einiges zustande:</p>
+
+<ul>
+ 	<li style=""text-align: justify;"">Ich habe zusammen mit einem Freund im Haus endlich mal LAN Kabel verlegt, um für den angekündigkten VDSL Ausbau Mitte November 16 vorgesorgt zu haben und endlich von diesem unzuverlässigen dLAN weg zu kommen. Nun befindet sich in jedem wichtigen Zimmer eine Gigabit LAN Dose.</li>
+ 	<li style=""text-align: justify;"">Die IoT in the Box wurde um Temperatursensoren erweitert, um die Zimmertemperatur und die Außentemperatur zu messen und zu loggen. Dazu wird noch ein Artikel folgen.</li>
+ 	<li style=""text-align: justify;"">Zu guter Letzt habe ich testweise einen Freifunk-Knoten eingerichtet, der nun bei mir zuhause kostenloses WLAN zur Verfügung stellt (auf 5/1 MBit/s abgeriegelt, natürlich)</li>
+</ul>
+&nbsp;
+<h3>tl;dr<img class=""size-full alignright"" src=""http://www.pricelessprofessional.com/images/missing_motivation.jpg"" width=""480"" height=""545"" /></h3>
+<p style=""text-align: justify;"">Ich bin nun wieder aktiv und es werden einige Artikel zu den verpassten und aktuellen Projekten folgen.</p>","Keepalive // Aktuelle Projekte",,"publish","open","open",,"keepalive",,,"2017-01-31 15:15:49","2017-01-31 14:15:49",,"0","https://gingerlabs.de/?p=1889","0","post",,"0"
+"1939","1","2017-03-29 13:54:49","0000-00-00 00:00:00","Endlich ist es soweit, die nächste Version der populären WINE Pakete, die es erlauben Windows Programme unter Linux auszuführen wurde veröffentlicht.
+
+Diese erlaubt es nun auch, Office 2013 auf Linux zu installieren.
+<h3>Installation</h3>
+Zur Installation unter Ubuntu geht man wie folgt vor:
+<ol>
+ 	<li>Im Terminal installiert man zuerst die Paketquelle mit
+<code>sudo add-apt-repository ppa:wine/wine-builds</code></li>
+ 	<li>Falls noch nicht bereits geschehen, die 32-bit Unterstützung mit
+<code>sudo dpkg --add-architecture i386</code> aktivieren</li>
+ 	<li>Wine installieren
+<code>sudo apt update &amp;&amp; sudo apt install --install-recommends wine-staging</code></li>
+</ol>
+Hier wurde nun der ""staging"" branch ausgewählt, der stabiler als der ""development"" branch ist.
+
+&nbsp;
+<h4>Installation von Office 2013</h4>
+Um Office 2013 unter Wine zu installieren, muss man zuerst die Windows Version, die Wine bereitstellt verändern. Dazu ruft man das Wine-Konfigurationsprogramm unter /opt/wine-staging/bin/winecfg und wählt dort bei ""Windows-Version"" ""Windows 7"" aus.
+
+muss man nun einfach die setup.exe auf der Office-CD, oder eines CD-Abbilds ausführen. Danach fragt Wine, dass einige Pakete noch nicht installiert sind. Diese bestätigt man einfach mit ""install"".
+
+[well, es sieht so aus, dass es doch nicht geht, so viel dazu...]","Wine 2.0 released",,"draft","open","open",,,,,"2017-03-29 13:54:49","2017-03-29 11:54:49",,"0","https://gingerlabs.de/?p=1939","0","post",,"0"
+"1946","1","2017-03-20 23:53:31","0000-00-00 00:00:00","Abschaltung von automatischer Reaktivierung des Hakens
+<ul style=""margin-left: .375in; direction: ltr; unicode-bidi: embed; margin-top: 0in; margin-bottom: 0in;"" type=""disc"">
+ 	<li style=""margin-top: 0; margin-bottom: 0; vertical-align: middle;""><span style=""font-family: Calibri; font-size: 11.0pt;"">Automatic Maintenance wake deaktivieren</span>
+<ul style=""margin-left: .375in; direction: ltr; unicode-bidi: embed; margin-top: 0in; margin-bottom: 0in;"" type=""circle"">
+ 	<li style=""margin-top: 0; margin-bottom: 0; vertical-align: middle;""><span style=""font-family: Calibri; font-size: 11.0pt;"">Dazu müssen Waketimers kurz wieder aktiviert werden</span></li>
+</ul>
+</li>
+</ul>","Hilfe, mein PC ist ein Zobie! Part 2",,"draft","open","open",,,,,"2017-03-20 23:53:31","2017-03-20 22:53:31",,"0","https://gingerlabs.de/?p=1946","0","post",,"0"
+"1963","1","2017-03-31 13:08:38","0000-00-00 00:00:00","Aktuellen Stand beschreiben
+
+Dann evtl. Statusupdates
+
+Was ist das Nerd-Getränk Nummer 1? Richtig: Mate. Was begeistert einen Nerd am meisten? Richtig: Bunte, blinkende Lichter. Was macht man also, wenn man auf der Suche nach einem neuen Projekt ist? Richtig: Kombinieren!
+
+Inspiriert durch das Matelight auf dem CCC machten wir uns daran eine Ähnliche Installation aufzubauen
+
+&nbsp;","Matelight",,"draft","open","open",,,,,"2017-03-31 13:08:38","2017-03-31 11:08:38",,"0","https://gingerlabs.de/?p=1963","0","post",,"0"
+"1965","1","2017-03-29 13:58:58","0000-00-00 00:00:00","Projekt beschreiben","Edd-E²",,"draft","open","open",,,,,"2017-03-29 13:58:58","2017-03-29 11:58:58",,"0","https://gingerlabs.de/?p=1965","0","post",,"0"
+"1976","1","2017-06-25 12:00:03","2017-06-25 10:00:03","Nur ein schneller Tipp:
+Ich shoppe sehr gerne auf <a href=""https://www.banggood.com/?p=U530099241512014110R"">Banggood</a> nach Elektronikteilen und da mache ich auch gerne Screenshots von dem Warenkorb, um ihn z.B. mit Freunden zu teilen.
+Nun ist das Layout von der Seite aber so riesig, dass man nur wenige Produkte auf einmal in den Screenshot bekommen würde.
+
+Das hat mich gestern genug geärgert, um schnell etwas CSS zusammenzupfuschen, um den Warenkorb kompakter zu gestalten. Geendet ist der Aufwand in 2 Bookmarklets mit unterschiedlicher Kompaktheit.
+
+<!--more-->
+
+Die Benutzung der Bookmarklets ist ganz einfach. Bevor man einen Screenshot macht, einfach das Bookmarklet anklicken und wenn man wieder zur normalen Ansicht zurückkehren möchte, einfach die Seite neu laden
+
+Um die Bookmarklets zu speichern, einfach einen der Links in die Lesezeichenleiste ziehen.
+
+<iframe style=""border: 0;"" src=""https://share.gingerlabs.de/banggoodBookmarklet.html"" width=""250"" height=""35""></iframe>
+Den CSS Code in schönerer Formatierung gibt's im <a href=""https://gist.github.com/LeoDJ/7aee2f9239396063f807afd47b72d667"">GitHub Gist</a>.
+
+[caption id=""attachment_1992"" align=""alignleft"" width=""902""]<a href=""https://gingerlabs.de/2017/06/banggood-compact-shopping-cart-bookmarklet/bg2/"" rel=""attachment wp-att-1992""><img class=""size-full wp-image-1992"" src=""https://gingerlabs.de/wp-content/uploads/2017/06/bg2.png"" alt="""" width=""902"" height=""474"" /></a> BG compCart 1[/caption]
+
+[caption id=""attachment_1993"" align=""alignright"" width=""890""]<a href=""https://gingerlabs.de/2017/06/banggood-compact-shopping-cart-bookmarklet/bg3/"" rel=""attachment wp-att-1993""><img class=""size-full wp-image-1993"" src=""https://gingerlabs.de/wp-content/uploads/2017/06/bg3.png"" alt="""" width=""890"" height=""327"" /></a> BG compCart 2[/caption]
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+&nbsp;
+
+[caption id=""attachment_1991"" align=""alignleft"" width=""911""]<a href=""https://gingerlabs.de/2017/06/banggood-compact-shopping-cart-bookmarklet/bg1/"" rel=""attachment wp-att-1991""><img class=""wp-image-1991 size-full"" src=""https://gingerlabs.de/wp-content/uploads/2017/06/bg1.png"" alt="""" width=""911"" height=""840"" /></a> Standard Ansicht[/caption]","Banggood Compact Shopping Cart Bookmarklet",,"publish","open","open",,"banggood-compact-shopping-cart-bookmarklet",,,"2017-06-25 12:31:51","2017-06-25 10:31:51",,"0","https://gingerlabs.de/?p=1976","0","post",,"2"
+"2007","1","2017-09-27 12:34:53","2017-09-27 10:34:53","Nur ein kurzes Statusupdate. Wie man an der Artikelfrequenz bereits gemerkt hat, fehlt dieses Jahr doch ziemlich die Motivation Artikel für den Blog zu schreiben, obwohl es genug Themen gäbe...<!--more-->
+
+Dies liegt unter anderem daran, dass ich nicht mehr nur alleine zuhause an meinen Projekten arbeite, sondern viel in Heilbronn während dem <a href=""https://www.meetup.com/de-DE/codeforhn/"">Coding Abend </a>und im <a href=""https://www.fablab-neuenstadt.de/"">FabLab Neuenstadt</a>. Durch den dort vorhandenen konstanten Austausch hält sich der Mitteilungsdrang für den Blog doch leider eher in Grenzen...
+<h1>tl;dr Projekte</h1>
+Es gibt genug Dinge, über die ich je nach Motivation Artikel schreiben könnte:
+<ul>
+ 	<li>Ich bin seit Sommeranfang regelmäßig im Fablab Neuenstadt und dort auch Mitglied</li>
+ 	<li>Ende August war ich mit Code for Heilbronn auf der MakerFaire in Hannover mit einem eigenen Stand</li>
+ 	<li>Ich bin aktuell sehr aktiv im Bereich FPV Race Copter und war dadurch auch bereits auf zwei Renn-Festivals</li>
+ 	<li>Wir haben an Coding Abenden ein <a href=""http://matelight.de/"">MateLight</a> gebaut</li>
+ 	<li><a href=""https://twitter.com/thevale98"">Vale</a> und ich haben ein altes Elektromobil auf Fernsteuerung umgebaut</li>
+ 	<li>Und viele weitere kleine Projekte und unzählige Projektideen</li>
+</ul>
+&nbsp;
+
+Sofern sich jemand meldet, der unbedingt einen Artikel zu einem spezifischen Thema haben möchte, dann würde das die Motivation wahrscheinlich schon ziemlich ankurbeln. Aber ich verspreche Nichts ^^","Es hat sich viel getan",,"publish","open","open",,"es-hat-sich-viel-getan",,,"2017-09-27 13:43:17","2017-09-27 11:43:17",,"0","https://gingerlabs.de/?p=2007","0","post",,"0"
+"2016","1","2017-11-10 20:00:52","2017-11-10 19:00:52","<h1>Idee</h1>
+Vor einiger Zeit fiel mir auf, wie viele Geräte ich im Zimmer rumstehen habe, die mit 12V versorgt werden. Z.B. Modellbauladegerät, Lüfter, LED Beleuchtung, etc. Natürlich hat auch jedes dieser Geräte jeweils ein eigenes Netzteil, was einerseits dafür sorgt, dass viele Steckdosen der Mehrfachsteckdosen dadurch eingenommen werden und andererseits, dass diese Netzteile auch während das Gerät ausgeschaltet ist ein klein wenig Strom verbrauchen. Daher die Idee: warum nicht einfach die 12V zentral umwandeln?
+
+<!--more-->
+
+Die generelle Notwendigkeit für 230V Wechselspannung im Haus ist natürlich nachvollziehbar. Wechselspannung kann man leicht und mit (verhältnismäßig) wenigen Verlusten transformieren und die hohe Spannung innerhalb eines Hauses bzw. Wohnblocks hält die Leitungsverluste relativ gering.
+
+Innerhalb eines Zimmers sind diese Eigenschaften jedoch nicht notwendig. Viele Geräte benötigen dieselbe Spannung und die Leitungslänge beschränkt sich auf wenige Meter, was bei moderaten Strömen die Verluste gering hält.
+<h1>Bauteile</h1>
+Als zentrales Netzteil soll ein altes Computer-ATX-Netzteil herhalten, da die Meisten sehr leistungsstark sind. Sie können über 20 Ampere bei 12V bereitstellen und da ich noch einige alte herumliegen habe, muss ich nicht extra eins kaufen.
+
+Da alle LED Streifen und das Modellbauladegerät doch einige Ampere ziehen können entschied ich mich ein Kabel mit großem Querschnitt zuzulegen. Die Wahl fiel auf eine 30m Rolle 2x4mm² Lautsprecherkabel.
+Das besteht zwar nur aus verkupfertem Aluminium als Leiter, bietet aber den selben Leitungswiderstand wie 2,5mm² Vollkupfer für deutlich weniger Geld.
+
+Da ich das System so modular wie möglich halten möchte werden die Kabelstrecken an den Enden jeweils mit XT60-Verbindungen ausgestattet.
+
+Geplant sind aktuell zwei Versorgungspunkte, an denen jeweils eine Art ""XT60-Mehrfachsteckdose"" angebracht werden soll. Die Idee hier ist, diese in Aufputz-Abzweigdose einzubauen.
+An diese werden dann mit Adapterkabeln die Verbraucher angeschlossen.
+<h1>Verbraucher</h1>
+Wie oben bereits kurz aufgezählt hier noch eine ausführlichere Beschreibung der Verbraucher, die an das 12V System angeschlossen werden sollen:
+
+In meinem Zimmer befinden sich diverse LED Streifen zur Beleuchtung.
+Über der Couch befindet sich ein RGB-LED-Streifen mit Fernbedienung zur Szenenbeleuchtung.
+Über dem ""Werkbrett"" im Regal kleben 3 parallele Streifen weißer LED-Streifen als Arbeitsbeleuchtung (der macht sehr schön weiches Licht).
+Geplant ist auch noch weitere RGB-LED-Streifen in den Schattenfugen an der Decke anzubringen.
+
+Da meine Heizung sich hinter meinem Schreibtisch, unter dem Fenstersims, hinter den Monitoren befindet staut sich im Winter dort oft die Wärme, die so schlecht an das Zimmer abgegeben werden kann. Deshalb habe ich dort einen temporären, alten PC-Lüfter installiert, der die Luft unter dem Fenstersims herauspustet.
+
+Außerdem befindet sich auf dem Werkbrett ein Buck-Boost-Modul als ""Labornetzteil"" für kleinere Testaufbauten.
+
+Da ich in meiner Freizeit aktiv Quadcopter fliege müssen auch die Akkus entsprechend oft geladen werden. Das Ladegerät wird direkt mit 12V versorgt, und kann mit bis zu 80W laden. Verluste eingerechnet ergibt sich ein Stromfluss zwischen 7-8A bei 12V.
+
+Als weitere Überlegung steht im Raum, auch den 3D Drucker über das 12V Netz zu versorgen. Der Vorteil wäre, dass nicht mehr das beigelegte Netzteil von fraglicher Qualität und Sicherheit genutzt werden müsste. Allerdings kann der Drucker durch das beheizte Bett bis zu 250W verbrauchen. Bei 12V wären das über 20A, wo es wiederum mit dem ATX-Netzteil knapp wird, sofern ich das Ladegerät gleichzeitig betreiben möchte.
+Außerdem entsteht bei diesen Strömen doch ein gewisser Leitungsverlust, der auch noch mit dem dicken Kabel merkbar ist.
+
+[caption id=""attachment_2019"" align=""alignnone"" width=""1838""]<a href=""https://gingerlabs.de/?attachment_id=2019"" rel=""attachment wp-att-2019""><img class=""wp-image-2019 size-full"" src=""https://gingerlabs.de/wp-content/uploads/2017/11/Zimmer-12V-Bus-Skizze.png"" alt=""12V Bus Skizze"" width=""1838"" height=""858"" /></a> Skizze des Aufbaus[/caption]
+<h1>Erweiterungsideen</h1>
+Anstatt des ATX Netzteils könnte man auf ein Server-Netzteil ausweichen, von denen ich auch noch ein Paar da habe. Allerdings sind deren Lüfter auch auf niedrigster Stufe noch recht laut.
+
+Man könnte das 12V Netz zu einem späteren Zeitpunkt perfekt an ein Solarsystem auf 12V Basis koppeln, das sich hauptsächlich aus den per Solar geladenen Akkus versorgt und bei zu geringer Spannung der Akkus ein Netzteil/Ladegerät zuschaltet.
+
+Die passiven XT60-Verteiler könnten mit Arduino, Knöpfen und MOSFETs um schaltbare Ausgänge erweitert werden. Und als weiteren Gedanken eventuell auch an ein Home-Automation System angebunden werden.
+Diese Erweiterung befindet sich aktuell bereits in Planung.
+<h1>Fazit</h1>
+Ein 12V-Netz aufzubauen würde sich für die Anzahl der Verbraucher definitiv Lohnen und der Aufwand von Kabel verlegen und Verteilerdosen bauen hält sich auch in Grenzen.
+
+Aktuell habe ich bereits Stecker, Kabel und Netzteil da und arbeite schon an den Verteilerdosen.
+
+&nbsp;","Zimmer 12V Netz",,"publish","open","open",,"zimmer-12v-netz",,,"2017-11-08 03:03:30","2017-11-08 02:03:30",,"0","https://gingerlabs.de/?p=2016","0","post",,"1"
+"2023","1","2018-01-11 13:37:57","2018-01-11 12:37:57","Wie bereits im <a href=""https://gingerlabs.de/2017/11/zimmer-12v-netz/"" target=""_blank"" rel=""noopener"">letzten Artikel</a> angekündigt ist eine schaltbare Version der Verteilerdose geplant.
+
+Verwendet werden sollen MOSFETs zum Schalten der Ausgänge, da viele Relais in dem kleinen Gehäuse der Verteilerdose schlecht unterzubringen sind. Außerdem haben sie den Vorteil, dass man damit LED Streifen dimmen kann.
+
+Als Steuerung soll ein Arduino Nano in Kombination mit einem NRF24L01+ Funkmodul zur Kommunikation eingebaut werden.
+
+<!--more-->
+<h2>Software</h2>
+Wie es sich gehört, habe ich erst einmal an der Software geschraubt, bevor ich überhaupt eine konkrete Hardware vor mir hatte.
+
+Hierfür habe ich die <a href=""https://www.mysensors.org/"" target=""_blank"" rel=""noopener"">mySensors</a> library gefunden, die die Kommunikation zwischen verschiedenen Knoten für Home Automation sehr einfach macht. Zusätzlich war es die einzige Library, die ich in meiner ersten Suche gefunden habe, die einfach und ohne große Einrichtung ein Mesh-Netzwerk zwischen den NRF-Funkmodulen aufbaut, was die sonst eher geringe Reichweite der Module deutlich verbessert. Allerdings ist es kein echtes Mesh, da man lediglich einzelne Nodes als Repeater einstellen kann und diese dann die Nachricht an das Gateway weiterleiten.
+
+Die Sicherheit der Lösung ist natürlich nicht die Beste. Die Befehle und Werte werden über die Funk-Pipe des NRF unverschlüsselt übertragen. Wer also die NRF Pipe-ID und das mySensors Protokoll kennt, könnte ganz nah am Haus Sensorwerte mitlesen und Verbraucher schalten. Aufgrund des geringen Angriffsvektors und eher unkritischen Informationen finde ich den Mangel an Verschlüsselung allerdings  einen akzeptablen Negativpunkt.
+
+Nachdem ich ein Hello World Beispiel kurz zusammengecodet hatte, habe ich zwei Arduinos mit jeweils einem NRF auf einem Breadboard zusammengesteckt, um ein Gateway und einen Node zum Programmieren zu haben.
+
+Anhand dieser Breadboard Version konnte ich dann die erste Version der Software für die Verteilerdose entwickeln.
+<h2>Planung</h2>
+Als die grobe Testversion der Software stand, galt es sich an das Hardware-Design zu machen. Als maximaler Platinenplatz standen die Innenmaße der Verteilerdose zur Verfügung.
+
+Meine Anforderungen an die Dosen waren:
+<ul>
+ 	<li>Mindestens 4 Ausgänge, besser mehr</li>
+ 	<li>Solides Gehäuse, dass man Stecker ohne viel Biegen ein- und ausstecken kann</li>
+ 	<li>Schaltbare Ausgänge</li>
+ 	<li>Taster und LEDs zum manuellen Schalten der Ausgänge</li>
+</ul>
+<h3>Komponenten</h3>
+Also stellte ich mir eine Grobe Komponentenliste zusammen:
+<ul>
+ 	<li>Aufputzdose aus dem Baumarkt</li>
+ 	<li><a href=""https://www.banggood.com/ATmega328P-Arduino-Compatible-Nano-V3-Improved-Version-No-Cable-p-959231.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">Arduino Nano</a></li>
+ 	<li><a href=""https://www.banggood.com/3Pcs-NRF24L01-SI24R1-2_4G-Wireless-Power-Enhanced-Communication-Receiver-Module-p-1057155.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">NRF24L01+</a></li>
+ 	<li><a href=""https://www.banggood.com/5Pcs-Mini-DC-Adjustable-Power-Supply-Buck-Module-Step-Down-Module-p-952402.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">Spannungswandler 12V-&gt;5V</a></li>
+ 	<li><a href=""https://www.banggood.com/5Pcs-5V-To-3_3V-DC-DC-AMS1117-800MA-Step-Down-Power-Supply-Buck-Module-p-944686.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">Spannungswandler 5V-&gt;3,3V</a></li>
+ 	<li><a href=""https://www.banggood.com/10X-XT60-Male-Female-Bullet-Connectors-Plugs-For-RC-Battery-p-958017.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">2x XT60 Buchsen</a> als Spannungsversorgung / zum Weiterschleifen</li>
+ 	<li><a href=""https://www.banggood.com/10X-XT60-Male-Female-Bullet-Connectors-Plugs-For-RC-Battery-p-958017.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">XT60 Stecker</a> als ""Steckdosen""</li>
+ 	<li><a href=""https://www.banggood.com/10Pcs-IRFZ44N-Transistor-N-Channel-Rectifier-Power-Mosfet-p-953277.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">MOSFETs</a></li>
+ 	<li><a href=""https://www.banggood.com/375pcs-3MM-5MM-LED-Light-emitting-Diode-Beads-Resistance-Lights-Kits-Bulb-Lamp-p-1027601.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">LEDs</a></li>
+ 	<li><a href=""https://www.banggood.com/100pcs-Mini-Micro-Momentary-Tactile-Tact-Switch-Push-Button-DIP-P4-Normally-Open-p-917570.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">Taster</a></li>
+</ul>
+<h3>Layout</h3>
+Basierend darauf begann ich, den Schaltplan in Target 3001 zu erstellen. Das war schnell erledigt.
+
+Daraufhin wandelte ich den Schaltplan in ein Platinenlayout um. Also habe ich angefangen, die Platine mit sechs schaltbaren Ausgängen zu zeichnen und stellte schnell fest, dass der Platz auf einer Platine doch sehr schnell knapp wird. Selbst wenn ich diese doppelseitig ausführen würde, was ich vermeiden will, würde ich nicht alle Komponenten unter bekommen.
+
+Also habe ich die Logikkomponenten wie Arduino, NRF und die Spannungsversorgung auf eine zweite Platine verbannt, die ich mit Steckverbindungen mit der Power-Platine verbinden werde.
+
+Aber selbst dann hatte ich nicht genug Platz, um alle sechs Ausgänge mit einem MOSFET zu versehen. So blieb es bei lediglich vier schaltbaren Ausgängen und zwei Dauerausgängen.
+
+Auch mit der Limitierung auf vier schaltbare Ausgänge habe ich drei Design-Revisionen gebraucht um die Komponenten auf eine einseitige Platine platziert zu bekommen.
+
+Als das Layout stand habe ich nochmal jemand drüber gucken lassen, dass ich keine groben Fehler eindesigned habe.
+
+[gallery type=""rectangular"" ids=""2030,2032""]
+
+&nbsp;
+
+Somit wäre die Planung abgeschlossen. Im nächsten Teil des Artikels geht es dann um die Herstellung der Platine und Bau der finalen Box.
+
+&nbsp;","Schaltbare Verteilerdose fürs 12V Netz - Teil 1: Planung",,"publish","open","open",,"schaltbare-verteilerdose-fuers-12v-netz-teil-1-planung",,"
+https://gingerlabs.de/2017/11/zimmer-12v-netz/","2018-01-12 22:46:27","2018-01-12 21:46:27",,"0","https://gingerlabs.de/?p=2023","0","post",,"0"
+"2077","1","2018-02-01 00:21:49","0000-00-00 00:00:00","Wie bereits vor Jahren mal <a href=""https://gingerlabs.de/2015/11/idee-arduino-momentanstromverbrauchsanzeige/"" target=""_blank"" rel=""noopener"">als Idee festgehalten</a> kam ich nun endlich dazu die Idee mit dem DIY SmartMeter umzusetzen.
+
+Wie bereits im letzten Artikel angesprochen, bin ich aktuell daran das mySensors Netzwerk bei mir zuhause zu erweitern.
+
+Nun ist den Stromzähler daran anzubinden der nächste logische Schritt, da mich die Stromverbrauchswerte schon immer interessiert haben.
+
+<!--more-->
+<h1>Hardware</h1>
+Bei diesem Projekt galt für mich nach dem eher hardwarelastigen letzten Projekt, der PDBox, ganz klar ""Software first"".
+
+Natürlich benötige ich trotzdem hardwareseitig einen Testaufbau. Hier daher ganz klassisch als Breadboard-Aufbau gelöst.
+<h2>Komponenten</h2>
+<ul>
+ 	<li><a href=""https://www.banggood.com/ATmega328P-Arduino-Compatible-Nano-V3-Improved-Version-No-Cable-p-959231.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">Arduino Nano</a></li>
+ 	<li><a href=""https://www.banggood.com/3Pcs-NRF24L01-SI24R1-2_4G-Wireless-Power-Enhanced-Communication-Receiver-Module-p-1057155.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">NRF24L01+</a></li>
+ 	<li><a href=""https://www.banggood.com/5Pcs-5V-To-3_3V-DC-DC-AMS1117-800MA-Step-Down-Power-Supply-Buck-Module-p-944686.html?p=U530099241512014110R"" target=""_blank"" rel=""noopener"">Spannungswandler 5V-&gt;3,3V</a></li>
+ 	<li><a href=""https://www.reichelt.de/index.html?ARTICLE=6683"" target=""_blank"" rel=""noopener"">CNY70 IR-Reflexkoppler</a></li>
+</ul>
+<h2>Reflexkoppler</h2>
+[caption id=""attachment_2098"" align=""alignright"" width=""234""]<a href=""https://gingerlabs.de/?attachment_id=2098"" rel=""attachment wp-att-2098""><img class=""wp-image-2098 size-medium"" src=""https://gingerlabs.de/wp-content/uploads/2018/01/CNY70-234x300.jpg"" alt="""" width=""234"" height=""300"" /></a> CNY70 Sensor[/caption]
+
+Der CNY70 ist ein Infrarotreflexkoppler. Das bedeutet, dass er ähnlich wie ein Optokoppler aus einer Infrarot Leuchtdiode und einem Fototransistor besteht.
+
+Während bei einem Optokoppler die beiden Komponenten jedoch im Gehäuse aufeinander zeigend verbaut sind, zeigen diese bei einem Reflexkoppler aus dem Gehäuse nach außen.
+
+Das von der Leuchtdiode abgestrahlte Licht wird von der Oberfläche reflektiert und fällt zurück in den Fototransistor der dann abhängig von der Lichtstärke einen gewissen Strom fließen lässt. Dieser Strom kann man dann über einen Widerstand mithilfe des Analog-Digital-Wandlers eines Mikrocontrollers messen.
+
+[caption id=""attachment_2101"" align=""aligncenter"" width=""788""]<a href=""https://gingerlabs.de/?attachment_id=2101"" rel=""attachment wp-att-2101""><img class=""size-large wp-image-2101"" src=""https://gingerlabs.de/wp-content/uploads/2018/01/CNY70_schematically-1024x513.png"" alt="""" width=""788"" height=""395"" /></a> CNY70 schematisch[/caption]
+<h3>CNY70 Adapterplatine</h3>
+Der hier verwendete CNY70 benötigt noch zwei zusätzliche Widerstände, die ich zusammen mit dem Sensor auf eine eigen kleine Adapterplatine gelötet habe. Normalerweise hätte ich den CNY70 einfach mit Jumper Kabeln verbunden und die Widerstände erst auf dem Breadboard verbaut. Allerdings sind die Beinchen am Sensor wohl ein bisschen dünner als normale Dupont Pins und deshalb haben die Kabel nicht gehalten.
+
+[gallery type=""rectangular"" ids=""2093,2103""]
+<h2>Testaufbau</h2>
+Für den Testaufbau habe ich dann einfach den Sensor mit Klebeband an den Stromzähler geklebt und das Breadboard in den Zählerschrank gelegt. Versorgt wird der Arduino einfach mit einem USB-Netzteil.
+
+<a href=""https://gingerlabs.de/wp-content/uploads/2018/01/IMG_20171128_172413-e1515573963613.jpg""><img class=""aligncenter wp-image-2092 size-large"" src=""https://gingerlabs.de/wp-content/uploads/2018/01/IMG_20171128_172413-e1515573963613-1024x938.jpg"" alt="""" width=""788"" height=""722"" /></a>
+<h1>Software</h1>
+Da nun die Hardware grundsätzlich erst mal steht kann ich mit dem spaßigen Teil beginnen.
+<h2>Sensor auslesen</h2>
+Die erste Hürde, an der ich vor ca. zwei Jahren gescheitert bin war, dass man mit dem Reflexkoppler ja diesen kleinen roten Strich auf der Zählscheibe erkennen muss. Wenn sich dieser am Sensor vorbei dreht, bewirkt er allerdings nur eine relativ geringe Änderung der reflektierten Lichtstärke, da sich der CNY70 nicht wirklich gut fokussieren lässt.
+
+Als Größenordnung der geringen Änderung mal so viel: Beim Arduino tritt eine Änderung des gemessenen Analogwerts bei Erkennung des roten Strichs um ca. 5 Werte (von 1023) auf, während bei Ruhezustand bereits durch das Rauschen des Analog-Digital-Wandlers (ADC) der Wert schon um ca. 3 Werte schwankt.
+
+Ein so geringes Signal müssten man nun entweder verstärken, oder man filtert das ADC-Rauschen mithilfe von Software aus dem Signal heraus. Letzteres ist der Weg, den ich gewählt habe, da eine Verstärkung auf der analogen Seite für mich deutlich komplexer ist und den Messbereich des Sensors einschränkt.
+<h3>Filterung</h3>
+Als Filterung nutze ich hier ein gleitenden Mittelwert. Bei diesem merkt der Mikrocontroller sich die letzten x gemessenen Werte und nimmt davon den Durchschnitt. Wird ein neuer Wert gemessen wird der älteste Wert verworfen. Durch diesen Filter beschränken sich die Schwankungen dann nur noch auf ungefähr einen halben Wert.
+
+Den Messintervall habe ich mal auf 5 Millisekunden festgelegt. Damit sieht man ganz gute Kanten in den Werten und hat eine gute Reaktionszeit auf die rote Markierung.
+<h3>Kalibrierung</h3>
+Nun ist es allerdings so, dass der Fototransistor nicht nur auf das Infrarotlicht von der Leuchtdiode reagiert, sondern auch auf anderes einfallendes Licht. Um den Sensor nicht jedes Mal manuell auf die Lichtverhältnisse im Zählerschrank kalibrieren zu müssen, habe ich hier erneut eine Filterung eingebaut. Dafür kommt ein sogenannter ""exponentiell gewichteter gleitender Mittelwert"" (EWMA) zum Einsatz.
+
+Das hört sich jetzt sehr kompliziert an, heißt aber insgesamt eigentlich nur, dass der neu eingelesene Wert in einem Verhältnis zu dem bereits vorhandenen Durchschnittswert verrechnet wird. Das spart einiges an Arbeitsspeicher, da im Prinzip nur der aktuelle Durchschnittswert im Speicher gehalten werden muss.
+
+Wird ein neuer Wert eingelesen, so wird von dem Durchschnittswert bspw. ein Hundertstel entfernt und der neue Wert geteilt durch hundert dazuaddiert.
+
+Somit wird immer errechnet, was der aktuelle Helligkeitswert ohne rote Markierung ist, damit die Differenz akkurat ermittelt werden kann.
+<h3>Sensorwerte</h3>
+Im folgenden Screenshot sieht man nun die rohen Sensorwerte beim Vorbeidrehen der roten Markierung.
+
+[caption id=""attachment_2109"" align=""aligncenter"" width=""886""]<a href=""https://gingerlabs.de/?attachment_id=2109"" rel=""attachment wp-att-2109""><img class=""size-full wp-image-2109"" src=""https://gingerlabs.de/wp-content/uploads/2018/01/pulse.jpg"" alt="""" width=""886"" height=""442"" /></a> Sensorwerte bei roter Markierung[/caption]
+
+Die rote Linie ist der gleitende Mittelwert der Sensorfilterung, dort sieht man sehr gut, dass ein klarer Helligkeitsabfall auftritt, der recht gut in Software erkannt werden kann.
+
+Die grüne Linie ist der EWMA von der automatischen Kalibrierung, man sieht sehr gut, dass er sich immer sehr langsam dem aktuellen Wert annähert und immer maximal einen Wert vom gefilterten Eingangssignal abweicht.
+
+Die blaue Linie ist ein Vergleichswert, was passieren würde, wenn man die kurzzeitige Filterung mit einem EWMA vornehmen würde. Die abfallende Kante ist mir hier nicht eindeutig genug, weshalb ich den gleitenden Mittelwert (rot) bevorzuge.
+
+Die ungefilterten Sensorwerte sind in diesem Diagramm nicht gezeigt, da man sonst die gefilterten Linien gar nicht mehr erkennen würde.
+<h2>Momentanverbrauch</h2>
+Da nun eine Umdrehung der Zählerscheibe sehr gut gemessen werden kann geht es nun damit weiter, was man mit diesen Daten anfangen kann.
+
+Auf dem Stromzähler steht immer, wie viele Umdrehungen pro gemessener Kilowattstunde anfallen. In meinem Fall sind es 375U/kWh. Das heißt man kann durch Zählen der Umdrehungen den Verbrauch in kWh erfassen und quasi den Zählerstand digital vorhalten, sofern der Sensor akkurat jede Umdrehung erkennt und keinen Ausfall erleidet.
+
+Allerdings kann man zusätzlich auch die Zeit einer Umdrehung messen. Dadurch lässt sich dann nämlich der aktuelle Verbrauch in Watt berechnen. Dazu kann man einfach folgende Formel anwenden:
+
+$latex Watt=\frac{3600}{Intervall\ *\ \frac{375\ U/kWh}{1000}}&amp;s=3$
+
+&nbsp;","DIY SmartMeter",,"draft","open","open",,,,,"2018-02-01 00:21:49","2018-01-31 23:21:49",,"0","https://gingerlabs.de/?p=2077","0","post",,"0"
+"2116","1","2018-02-01 19:00:02","2018-02-01 18:00:02","<a href=""https://gingerlabs.de/2018/01/schaltbare-verteilerdose-fuers-12v-netz-teil-1-planung/"">[Hier geht es zu Teil 1]</a>
+<h3>Ätzen der Platine</h3>
+Nachdem das Layout geprüft war, ging es daran, die Platinen auch herzustellen. Hierfür hatte ich durch das FabLab Neuenstadt Zugriff auf die Werkzeuge und Hilfe, um eine eigene Platine zu ätzen.
+
+<!--more-->
+
+Begonnen wurde damit, das PCB-Layout auf eine Folie zu drucken. Die Folie wird dann auf das Platinenmaß zugeschnitten und auf einer Platine mit Fotoschutzlack befestigt, die dann für ca. eineinhalb Minuten mit UV-Licht im Belichter belichtet wird. Dort, wo die Folie bedruckt ist, gelangt kein Licht auf die fotoempfindliche Schicht Nun wird die Platine für weitere eineinhalb Minuten in ein Entwicklerbad gelegt, das die Schutzschicht an den belichteten Stellen löst.
+
+Nachdem die Platine kurz abgespült wurde, kommt sie in das eigentliche Ätzbad mit erwärmtem Natriumpersulfat. Das Ätzen dauert zwischen 10-30 Minuten und ist fertig, wenn sich alle belichteten Stellen des Kupfers vollständig aufgelöst haben.
+Zwischendurch wird der Zustand der Platine immer wieder überprüft, um zu vermeiden, dass der Prozess nicht zu weit voranschreitet und somit nicht zu viel weggeätzt wird.
+
+Anschließend wird die Platine mit Handschuhen vorsichtig an den Haken aus dem Ätzbad genommen und mit Wasser und Aceton gereinigt.
+
+Doch mit dem Ätzen ist bei Weitem noch nicht alles getan, um die Platine ""fertig"" nennen zu können. Es müssen noch die Löcher für die THT Komponenten gebohrt werden und die einzelnen Platinen aus der großen herausgetrennt werden.
+Dadurch, dass das Glasfasermaterial der Platinen sehr rau ist, habe ich zwei ganze billige Trennscheiben pro Platine benötigt, um sie zurechtzuschneiden. Nach dem Zuschneiden waren die Scheiben bis auf wenige Millimeter heruntergeschliffen.
+
+Zum Schluss bin ich noch mit einem Schleifpapier über die Kanten gegangen, um scharfe Kanten zu entfernen.
+
+[gallery type=""rectangular"" ids=""2051,2052,2053,2037,2049""]
+<h3>Bestückung</h3>
+[caption id=""attachment_2038"" align=""alignright"" width=""300""]<a href=""https://gingerlabs.de/?attachment_id=2038""><img class=""wp-image-2038 size-medium"" src=""https://gingerlabs.de/wp-content/uploads/2017/11/IMG_20171009_215238-300x225.jpg"" alt="""" width=""300"" height=""225"" /></a> LED als Knopf[/caption]
+
+Nachdem die Platinen nun fertig waren, ging es nun endlich daran, auch die Bauteile aufzubringen.
+
+Ich begann mit der Power-Platine, da ich dort meine Konstruktion testen wollte.
+
+Und zwar sollen die LEDs als ""Stelzen"" für die Taster fungieren, sodass man nur die LEDs drücken muss, um den jeweiligen Eingang zu schalten. Dafür habe ich die Einlötpunkte für die LEDs ein Stück von den Tastern entfernt im Platinenlayout eindesigned, damit der LED ein gewisser Bewegungsfreiraum geben wird. Unter jede LED kam noch ein Tropfen Heißkleber, damit sie besser auf den Tastern sitzen.
+
+Danach erfolgte die restliche Bestückung der Power Platine mit SMD Komponenten auf der Unterseite, XT60 Stecker, Pin Header, MOSFETs und Drahtbrücken.
+
+Damit die Metallrückseiten der MOSFETs nichts kurzschließen können, wurden sie noch in Schrumpfschlauch verpackt.
+
+[gallery type=""square"" ids=""2041,2039,2042""]
+
+Als die Power-Platine fertig und getestet war ging es weiter mit der Logik-Platine. Diese war verhältnismäßig einfach zu bestücken, allerdings gab es noch eine kleine Hürde:
+
+Da Arduino und NRF auf der Unterseite der Platine befestigt werden sollen, bzw. aus Platzgründen müssen, mussten sie auf die Kupferseite der Platine gelötet werden. Da das Einlöten von Buchsenleisten auf die Kupferseite fast nicht möglich ist, habe ich einfach die Buchsenleisten an Arduino und NRF angelötet und Stiftleisten auf die Platine.
+
+[gallery type=""rectangular"" ids=""2046,2043,2044""]
+<h3>Fertige Platinen</h3>
+Nun sind beide Platinen bestückt und können endlich zusammengesteckt werden. Die Platinen halten durch die Steckverbindung schon besser als erwartet aneinander.
+
+[gallery type=""rectangular"" ids=""2045,2047""]
+<h3>Gehäuse</h3>
+Nun, da die Elektronik fertig war, galt es noch die Platinen in ein stabiles Gehäuse zu verpacken. Hierfür bietet sich, wie bereits früher einmal angesprochen, eine Verteilerdose aus der Elektroinstallation sehr gut an.
+
+[caption id=""attachment_2035"" align=""alignright"" width=""300""]<a href=""https://gingerlabs.de/?attachment_id=2035""><img class=""wp-image-2035 size-medium"" src=""https://gingerlabs.de/wp-content/uploads/2017/11/IMG_20171104_031717-e1515495254922-300x253.jpg"" alt="""" width=""300"" height=""253"" /></a> Lasergecutteter Deckel[/caption]
+
+Die Aussparungen auf der Vorderseite der Dose wurden mit einem Lasercutter herausgeschnitten, damit diese so akkurat wie möglich sind.
+Das ist möglich, da die Verteilerdose aus Polypropylen (PP) Plastik ist und somit gelasert werden darf, denn PP enthält keine Chlorverbindungen, die beim Lasern Chlorgas freisetzen würden.
+Allerdings verdampft PP beim Lasern nicht wie bspw. Acrylglas oder Holz, sondern schmilzt nur, was die Schnittkanten etwas abrundet.
+
+Außerdem habe ich auf der oberen Seite der Dose noch Löcher in die Kabeldurchführungen für die XT60 Stecker der Zuleitung geschnitten und diese mit Heißkleber fixiert.
+
+Für die USB-Buchse des Arduinos habe ich auch noch ein Loch in die Seite der Dose gebohrt und mit einem Cuttermesser die Kontur verbessert. Allerdings ist das nicht ganz so schön geworden, wie erhofft.
+<h3>Fertige Hardware</h3>
+Um die Platinen an der Front des Gehäuses zu befestigen habe ich in die obere Platine und den Deckel der Dose noch sechs Löcher für Nylon-Abstandshalter gebohrt und diese am Deckel befestigt.
+
+Mit Einbau der Platinen in das Gehäuse war die Hardware soweit auch fertig.
+
+[gallery type=""rectangular"" ids=""2050,2034""]
+<h1>Fazit</h1>
+Mit der fertigen Hardware erfolgten noch ein paar Anpassungen am Code und dann war die PDBox (kurz für ""power distribution box"") auch schon einsatzbereit.
+
+Den Code findet man wie üblich auf <a href=""https://github.com/LeoDJ/HomeAutomation/tree/master/12V_DistributionBox_1/Software"" target=""_blank"" rel=""noopener"">GitHub</a>, sowie auch die <a href=""https://github.com/LeoDJ/HomeAutomation/tree/master/12V_DistributionBox_1/Hardware"" target=""_blank"" rel=""noopener"">Platinendateien</a>.
+<h1>Ausblick</h1>
+Nachdem die Verbindung zwischen mySensors Testgateway und der PDBox recht gut funktioniert, kann man darüber nachdenken das Netzwerk zu erweitern.
+
+In Planung sind den Stromzähler mit einem Sensor zu erfassen, diverse Temperatursensoren im Haus zu verteilten und jeweils über mySensors anzubinden.
+
+Sobald alles über mySensors läuft, ist auch eine zentralisierte Anbindung an einen Controller wie bspw. Home Assistant denkbar, womit man dann Automatisierungen planen und auch andere Komponenten miteinbeziehen kann.
+
+&nbsp;","Schaltbare Verteilerdose fürs 12V Netz - Teil 2: Bauen",,"publish","open","open",,"schaltbare-verteilerdose-fuers-12v-netz-teil-2-bauen",,,"2018-02-01 18:59:59","2018-02-01 17:59:59",,"0","https://gingerlabs.de/?p=2116","0","post",,"0"
+"2146","1","2018-05-24 22:43:00","0000-00-00 00:00:00",,"Automatisch gespeicherter Entwurf",,"auto-draft","open","open",,,,,"2018-05-24 22:43:00","0000-00-00 00:00:00",,"0","https://gingerlabs.de/?p=2146","0","post",,"0"
