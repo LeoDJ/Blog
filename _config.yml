@@ -49,7 +49,7 @@ twitter_url: https://twitter.com/_LeoDJ
 # Google Analytics Tracking ID goes here:
 google_analytics:
 
-theme: jekyll-theme-hydeout
+# theme: jekyll-theme-hydeout
 markdown:    kramdown
 highlighter: rouge
 paginate: 10
@@ -62,3 +62,4 @@ plugins:
   - jekyll-redirect-from
   - jekyll-feed
   - jekyll-gist
+  - jekyll-paginate
