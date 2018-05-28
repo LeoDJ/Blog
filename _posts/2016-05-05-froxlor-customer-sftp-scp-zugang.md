@@ -2,9 +2,8 @@
 layout: post
 title:  "Froxlor Customer SFTP/SCP Zugang"
 date:   2016-05-05 03:09:41 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Linux
+tags: Froxlor libnss-mysql SCP SFTP
 ---
 
 ![SFTP Logo](/uploads/2016-05-05-sftp.png)

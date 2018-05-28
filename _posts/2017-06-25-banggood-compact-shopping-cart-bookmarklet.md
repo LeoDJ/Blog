@@ -2,9 +2,7 @@
 layout: post
 title:  "Banggood Compact Shopping Cart Bookmarklet"
 date:   2017-06-25 12:00:03 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Allgemein
 ---
 
 Nur ein schneller Tipp:

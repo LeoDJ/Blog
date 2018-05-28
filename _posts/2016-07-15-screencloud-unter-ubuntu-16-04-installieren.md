@@ -2,9 +2,8 @@
 layout: post
 title:  "Screencloud unter Ubuntu 16.04 installieren"
 date:   2016-07-15 01:58:29 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Allgemein Erklärungen Linux
+tags: Kubuntu Linux Screencloud SFTP
 ---
 <!-- ![Screencloud Logo](/wp-content/uploads/2016/07/b925d8ad974fc5e30901dfcf78ca14e8_400x400-e1468541679837.png) -->
 

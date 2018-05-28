@@ -2,7 +2,8 @@
 layout: post
 title:  "Zimmer 12V Netz"
 date:   2017-11-10 20:00:00 +0100
-categories: 12V
+categories: Idee
+tags: 12V Arduino LED Strom XT60
 ---
 
 ## Idee
