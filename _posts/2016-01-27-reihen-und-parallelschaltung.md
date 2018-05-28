@@ -2,9 +2,8 @@
 layout: post
 title:  "Reihen- und Parallelschaltung"
 date:   2016-01-27 22:35:09 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Erklärungen
+tags: Erklärung Lichterkette Parallelschaltung Reihenschaltung Unterschied
 ---
 
 > Da der gute Thomas von [nerdmind.de](https://nerdmind.de) mich darum gebeten hat, doch kurz einen Artikel über Reihen- und Parallelschaltung zu schreiben, ist er hier nun:

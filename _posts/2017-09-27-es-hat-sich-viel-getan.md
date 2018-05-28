@@ -2,9 +2,7 @@
 layout: post
 title:  "Es hat sich viel getan"
 date:   2017-09-27 12:34:56 +0200
-categories: Allgemein
-#redirect_from:
-#  - 2017/11/es-hat-sich-viel-getan
+categories: Allgemein Announcement
 ---
 
 Nur ein kurzes Statusupdate. Wie man an der Artikelfrequenz bereits gemerkt hat, fehlt dieses Jahr doch ziemlich die Motivation Artikel für den Blog zu schreiben, obwohl es genug Themen gäbe...<!--more-->
