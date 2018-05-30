@@ -45,6 +45,8 @@ url: "" # the base hostname & protocol for your site
 # Social settings
 github_url: https://github.com/LeoDJ
 twitter_url: https://twitter.com/_LeoDJ
+keybase_url: https://keybase.io/LeoDJ
+telegram_url: https://t.me/LeoDJ
 
 # Google Analytics Tracking ID goes here:
 google_analytics:
