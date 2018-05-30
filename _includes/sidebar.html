@@ -3,11 +3,17 @@
     <{% if page.layout == "index" %}h1{% else %}div{% endif %} class="site-title">
       <a href="{{ site.baseurl }}/">
         {% unless page.url == "/" %}
-          <span class="back-arrow icon">{% include svg/back-arrow.svg %}</span>
+          <!-- <span class="back-arrow icon">{% include svg/back-arrow.svg %}</span> -->
+          <i class="back-arrow fas fa-arrow-left"></i>
         {% endunless %}
-        {{ site.title }}
+        {% if site.logo %}
+          <img src="{{ site.logo }}"/>
+        {% else %}
+          {{ site.title }}
+        {% endif %}
       </a>
     </{% if page.layout == "index" %}h1{% else %}div{% endif %}>
+   
     <p class="lead">{{ site.description }}</p>
   </header>
   {% include sidebar-nav-links.html %}
