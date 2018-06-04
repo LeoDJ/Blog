@@ -2,9 +2,7 @@
 layout: post
 title:  "Hallo Welt"
 date:   2015-09-02 23:43:57 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Announcement
 ---
 
 Ich habe nun diesen Blog erstellt, um meine Gedanken, Projekte und sonstige interessante Dinge zu veröffentlichen.

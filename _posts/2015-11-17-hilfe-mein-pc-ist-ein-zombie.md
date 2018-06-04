@@ -2,9 +2,14 @@
 layout: post
 title:  "Hilfe, mein PC ist ein Zombie!"
 date:   2015-11-17 18:18:27 +0100
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Allgemein Windoof
+tags: 
+  - Lösung
+  - Problem
+  - waketimer
+  - Windoof
+  - Windows
+  - Windows 10
 ---
 
 

@@ -2,9 +2,8 @@
 layout: post
 title:  "Empfohlene YouTube Kanäle"
 date:   2016-01-28 13:37:42 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Allgemein
+tags: Youtube
 ---
 
 Einige haben mich bereits gefragt, wie ich an mein breites Elektronik-Wissen gekommen bin. Darauf kann ich mit nur einem Wort antworten: YouTube.

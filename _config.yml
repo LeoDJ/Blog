@@ -33,10 +33,12 @@
 title: Gingerlabs
 tagline: Elektronik-f00
 description: >- # this means to ignore newlines until next key
-  Elektronik-f00
+  Elektronik-f00.  
+  Mit viel Mikrocontroller und extra C.
 author: 
   name: LeoDJ
   url: https://twitter.com/_LeoDJ
+logo: /uploads/GingerlabsLogo.png
 
 # You'll want to customize url and baseurl for your own site:
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -45,6 +47,8 @@ url: "" # the base hostname & protocol for your site
 # Social settings
 github_url: https://github.com/LeoDJ
 twitter_url: https://twitter.com/_LeoDJ
+keybase_url: https://keybase.io/LeoDJ
+telegram_url: https://t.me/LeoDJ
 
 # Google Analytics Tracking ID goes here:
 google_analytics:

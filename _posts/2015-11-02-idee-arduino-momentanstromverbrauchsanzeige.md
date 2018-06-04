@@ -2,9 +2,8 @@
 layout: post
 title:  "[Idee] Arduino Momentanstromverbrauchsanzeige"
 date:   2015-11-02 16:40:14 +0100
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Idee
+tags: Arduino Ferraris Idee NRF NRF24L01 Stromzähler
 ---
 
 Vor Kurzem hatte ich mich gefragt, wie viel Strom eigentlich im Moment insgesamt verbraucht wird.  Natürlich hätte ich zum Stromzähler rennen können und anhand der Drehgeschwindigkeit der Scheibe bestimmen können, wie viel Strom gerade verbraucht wird. Aber das kann ich ja nicht die ganze Zeit machen.

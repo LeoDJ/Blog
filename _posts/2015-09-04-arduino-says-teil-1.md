@@ -2,9 +2,8 @@
 layout: post
 title:  "Arduino Says (Teil 1)"
 date:   2015-09-04 23:52:39 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Projekte Arduino ATTiny
+tags: Arduino ATTiny Elektronik Projekt Schaltplan Target
 ---
 
 ![Original Simon Spiel](https://upload.wikimedia.org/wikipedia/commons/9/99/OriginalSimon.jpg)

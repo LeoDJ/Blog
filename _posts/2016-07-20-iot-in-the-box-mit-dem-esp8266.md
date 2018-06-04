@@ -2,9 +2,8 @@
 layout: post
 title:  "IoT in the Box mit dem ESP8266"
 date:   2016-07-20 08:00:36 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Projekte ESP8266
+tags: ESP8266 IoT Temperatur WiFi
 ---
 
 

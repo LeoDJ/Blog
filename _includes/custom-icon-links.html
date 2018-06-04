@@ -1,1 +1,32 @@
 <!-- Optional additional links to insert for icons links -->
+{% if site.github_url %}    
+    <a id="github-link"
+       class="icon" title="Github" aria-label="Github"
+       href="{{ site.github_url }}">
+       <i class="fab fa-github"></i>
+    </a>
+{% endif %}
+
+{% if site.twitter_url %}    
+    <a id="twitter-link"
+       class="icon" title="Twitter" aria-label="Twitter"
+       href="{{ site.twitter_url }}">
+       <i class="fab fa-twitter"></i>
+    </a>
+{% endif %}
+
+{% if site.telegram_url %}    
+    <a id="telegram-link"
+       class="icon" title="Telegram" aria-label="Telegram"
+       href="{{ site.telegram_url }}">
+       <i class="fab fa-telegram"></i>
+    </a>
+{% endif %}
+
+{% if site.keybase_url %}    
+    <a id="keybase-link"
+       class="icon" title="Keybase" aria-label="Keybase"
+       href="{{ site.keybase_url }}">
+       <i class="fab fa-keybase"></i>
+    </a>
+{% endif %}

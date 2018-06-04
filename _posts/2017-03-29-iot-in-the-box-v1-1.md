@@ -2,9 +2,8 @@
 layout: post
 title:  "IoT in the Box v1.1 - Jetzt mit Temperaturfühler!"
 date:   2017-03-29 12:50:04 +0200
-categories: IoT
-redirect_from:
-#  - 201x/x/
+categories: Projekte Arduino ESP8266
+tags: Arduino Code DS18B20 Elektronik ESP8266 IoT Projekt Sensor Temperatur WiFi
 ---
 
 Hm, jetzt steht da so eine IoT Box mit Knopf hier rum und so wirklich nützlich ist sie jetzt auch nicht, da durch die bereits angesprochenen Einschränkungen nicht outdoor-tauglich. Also was damit machen? Richtig, upgraden!

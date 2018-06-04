@@ -2,9 +2,7 @@
 layout: post
 title:  "Keepalive // Aktuelle Projekte"
 date:   2017-01-31 15:15:49 +0100
-categories: Allgemein
-redirect_from:
-#  - 201x/x/
+categories: Allgemein Announcement
 ---
 
 Für alle, die sich wundern, nein, ich bin nicht tot. Ich hatte lediglich in letzter Zeit wenig Zeit (und Lust), aktiv an dem Projekt Blog weiterzuarbeiten.  

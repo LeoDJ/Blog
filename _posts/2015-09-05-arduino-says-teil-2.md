@@ -2,9 +2,8 @@
 layout: post
 title:  "Arduino Says (Teil 2)"
 date:   2015-09-05 17:25:44 +0200
-categories: 
-redirect_from:
-#  - 201x/x/
+categories: Projekte Arduino ATTiny
+tags: Arduino ATTiny Code Elektronik Programmieren Projekt
 ---
 
 ![Code Ausschnitt](/uploads/2015-09-05-ATTiny-says-code1.png)
