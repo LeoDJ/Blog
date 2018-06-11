@@ -67,3 +67,5 @@ plugins:
   - jekyll-feed
   - jekyll-gist
   - jekyll-paginate
+
+emptyArray: []

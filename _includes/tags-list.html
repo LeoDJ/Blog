@@ -7,12 +7,20 @@
 
 <div id="tags-page">
   <div class="tags-list">
-    {% for tag_pair in tag_words %}
-    {% assign tag = tag_pair | split:'|' | last %}
-    <a href="#{{ tag | slugify }}" class="tag-link">
-      <span class="tag-name">{{ tag }}</span>
-      <span class="tag-count">{{ site.tags[tag] | size }}</span>
-    </a>
+    {% assign tagData = site.emptyArray %}
+      {% for tag_pair in tag_words %}
+      {% assign tag = tag_pair | split:'|' | last %}
+      {% assign tag-count = site.tags[tag] | size %}
+      {% assign tagStr = tag-count | plus: -10000 | append: '###' | append: tag | append: "###" | append: tag-count %}
+      {% assign tagData = tagData | push: tagStr %}
+    {% endfor %}
+    {% assign tagData = tagData | sort %}
+    {% for tagStr in tagData %}
+      {% assign tag_elem = tagStr | split: "###" %}
+      <a href="#{{ tag_elem[1] | slugify }}" class="tag-link">
+        <span class="tag-name">{{ tag_elem[1] }}</span>
+        <span class="tag-count">{{ tag_elem[2] }}</span>
+      </a>
     {% endfor %}
   </div>
 
