@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Blog Umzug"
-date:   2018-06-12 12:00:00 +0200
+date:   2018-06-13 12:00:00 +0200
 categories: Announcement
 ---
 
