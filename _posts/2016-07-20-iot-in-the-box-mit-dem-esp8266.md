@@ -61,4 +61,4 @@ Wie immer steht der Quellcode auf meinem [GitHub Account](https://github.com/Leo
 
 ![Vollendete IoT Box](/uploads/2016-07-20-iot-in-the-box-mit-dem-esp8266/v1.1_charging.jpg)
 
-Edit: Hier geht es zu [Part 2](/2017/03/iot-in-the-box-v1-1/)
+Edit: Hier geht es zu [Part 2](/2017/03/iot-in-the-box-v1-1)

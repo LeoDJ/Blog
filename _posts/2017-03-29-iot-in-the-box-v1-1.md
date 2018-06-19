@@ -21,7 +21,7 @@ Ich hatte vor langer Zeit mal die [Dallas DS18B20 1-Wire Temperatursensoren](htt
   - Man kann mehrere Sensoren an den gleichen Bus hängen und diese anhand der bereits einprogrammierten UID auseinander halten
 
 ### Hardwareerweiterung
-Die Hardware aus [Version 1.0](/2016/07/iot-in-the-box-mit-dem-esp8266/) wurde nur minimal modifiziert. Ich habe eine Aussparung vorne in den Karton geschnitten und dahinter eine 2-polige Lüsterklemme geklebt.  Einen Pol habe ich direkt mit der Ground-Rail verbunden und den anderen mit dem letzten freien GPIO Pin.
+Die Hardware aus [Version 1.0](/2016/07/iot-in-the-box-mit-dem-esp8266) wurde nur minimal modifiziert. Ich habe eine Aussparung vorne in den Karton geschnitten und dahinter eine 2-polige Lüsterklemme geklebt.  Einen Pol habe ich direkt mit der Ground-Rail verbunden und den anderen mit dem letzten freien GPIO Pin.
 
 Um die Sensoren über die Datenleitung mit Strom zu versorgen, muss man an diese noch einen Pullup-Widerstand anschließen. Für diesen ist ein Wert von 4,7 kΩ empfohlen.
 
