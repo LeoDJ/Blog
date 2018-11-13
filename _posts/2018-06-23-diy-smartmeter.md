@@ -1,12 +1,12 @@
 ---
 layout: post
 title:  "DIY SmartMeter"
-date:   2020-06-23 12:00:00 +0200
+date:   2018-06-23 12:00:00 +0200
 categories: Projekte Arduino
 tags: Arduino NRF24L01 Stromzähler
 ---
 
-Wie bereits vor Jahren mal [als Idee festgehalten](/2015/11/idee-arduino-momentanstromverbrauchsanzeige/) kam ich nun endlich dazu die Idee mit dem DIY SmartMeter umzusetzen.
+Wie bereits vor Jahren mal [als Idee festgehalten](/2015/11/idee-arduino-momentanstromverbrauchsanzeige/) kam ich nun endlich dazu, die Idee mit dem DIY SmartMeter umzusetzen.
 
 Wie bereits im letzten Artikel angesprochen, bin ich aktuell daran das mySensors Netzwerk bei mir zuhause zu erweitern.
 
@@ -15,7 +15,7 @@ Nun ist den Stromzähler daran anzubinden der nächste logische Schritt, da mich
 <!--more-->
 
 # Hardware
-Bei diesem Projekt galt für mich nach dem eher hardwarelastigen letzten Projekt, der PDBox, ganz klar "Software first".
+Bei diesem Projekt galt für mich nach dem eher hardwarelastigen letzten Projekt, der [PDBox](2018/01/pdbox-part-1), ganz klar "Software first".
 
 Natürlich benötige ich trotzdem hardwareseitig einen Testaufbau. Hier daher ganz klassisch als Breadboard-Aufbau gelöst.
 
@@ -34,7 +34,7 @@ Der CNY70 ist ein Infrarotreflexkoppler. Das bedeutet, dass er ähnlich wie ein 
 
 Während bei einem Optokoppler die beiden Komponenten jedoch im Gehäuse aufeinander zeigend verbaut sind, zeigen diese bei einem Reflexkoppler aus dem Gehäuse nach außen.
 
-Das von der Leuchtdiode abgestrahlte Licht wird von der Oberfläche reflektiert und fällt zurück in den Fototransistor der dann abhängig von der Lichtstärke einen gewissen Strom fließen lässt. Dieser Strom kann man dann über einen Widerstand mithilfe des Analog-Digital-Wandlers eines Mikrocontrollers messen.
+Das von der Leuchtdiode abgestrahlte Licht wird von der Oberfläche reflektiert und fällt zurück in den Fototransistor der dann abhängig von der Lichtstärke einen gewissen Strom fließen lässt. Dieser Strom kann man dann über einen Widerstand in einen Spannungswert umwandeln. Die Spannung kann anschließend mithilfe des Analog-Digital-Wandlers eines Mikrocontrollers gemessen werden.
 
 ![CNY70 schematisch](/uploads/2018-06-23-diy-smartmeter/CNY70_schematically.png)
 ### CNY70 Adapterplatine
@@ -45,7 +45,7 @@ Der hier verwendete CNY70 benötigt noch zwei zusätzliche Widerstände, die ich
 ![](/uploads/2018-06-23-diy-smartmeter/CNY70_breakout_schematic.png)
 
 ## Testaufbau
-Für den Testaufbau habe ich dann einfach den Sensor mit Klebeband an den Stromzähler geklebt und das Breadboard in den Zählerschrank gelegt. Versorgt wird der Arduino einfach mit einem USB-Netzteil.
+Für den Testaufbau habe ich dann einfach den Sensor mit Klebeband an den Stromzähler geklebt und das Breadboard in den Zählerschrank gelegt. Versorgt wird der Arduino mit einem normalen USB-Netzteil.
 
 ![Testaufbau](/uploads/2018-06-23-diy-smartmeter/test_setup.jpg)
 
@@ -53,25 +53,25 @@ Für den Testaufbau habe ich dann einfach den Sensor mit Klebeband an den Stromz
 Da nun die Hardware grundsätzlich erst mal steht kann ich mit dem spaßigen Teil beginnen.
 
 ## Sensor auslesen
-Die erste Hürde, an der ich vor ca. zwei Jahren gescheitert bin war, dass man mit dem Reflexkoppler ja diesen kleinen roten Strich auf der Zählscheibe erkennen muss. Wenn sich dieser am Sensor vorbei dreht, bewirkt er allerdings nur eine relativ geringe Änderung der reflektierten Lichtstärke, da sich der CNY70 nicht wirklich gut fokussieren lässt.
+Die erste Hürde, an der ich vor ca. zwei Jahren gescheitert bin war, dass man mit dem Reflexkoppler ja diesen kleinen roten Strich auf der Zählscheibe erkennen muss. Wenn sich dieser am Sensor vorbei dreht, bewirkt er allerdings nur eine relativ geringe Änderung der reflektierten Lichtstärke, da sich der CNY70 nicht wirklich gut fokussieren lässt und infrarotes Licht nur bedingt von der roten Markierung absorbiert wird.
 
 Als Größenordnung der geringen Änderung mal so viel: Beim Arduino tritt eine Änderung des gemessenen Analogwerts bei Erkennung des roten Strichs um ca. 5 Werte (von 1023) auf, während bei Ruhezustand bereits durch das Rauschen des Analog-Digital-Wandlers (ADC) der Wert schon um ca. 3 Werte schwankt.
 
-Ein so geringes Signal müssten man nun entweder verstärken, oder man filtert das ADC-Rauschen mithilfe von Software aus dem Signal heraus. Letzteres ist der Weg, den ich gewählt habe, da eine Verstärkung auf der analogen Seite für mich deutlich komplexer ist und den Messbereich des Sensors einschränkt.
+Ein so geringes Signal müssten man nun entweder verstärken, oder man filtert das ADC-Rauschen mithilfe von Software aus dem Signal heraus. Letzteres ist der Weg, den ich gewählt habe, da eine Verstärkung auf der analogen Seite für mich deutlich komplexer wäre und den Messbereich des Sensors einschränken würde.
 
 ### Filterung
-Als Filterung nutze ich hier ein gleitenden Mittelwert. Bei diesem merkt der Mikrocontroller sich die letzten x gemessenen Werte und nimmt davon den Durchschnitt. Wird ein neuer Wert gemessen wird der älteste Wert verworfen. Durch diesen Filter beschränken sich die Schwankungen dann nur noch auf ungefähr einen halben Wert.
+Als Filterung nutze ich hier einen gleitenden Mittelwert. Bei diesem merkt sich der Mikrocontroller die letzten x gemessenen Werte und nimmt davon den Durchschnitt. Wird ein neuer Wert gemessen wird der älteste Wert verworfen. Durch diesen Filter beschränken sich die Schwankungen dann nur noch auf ungefähr einen halben ADC-Wert.
 
 Den Messintervall habe ich mal auf 5 Millisekunden festgelegt. Damit sieht man ganz gute Kanten in den Werten und hat eine gute Reaktionszeit auf die rote Markierung.
 
 ### Kalibrierung
-Nun ist es allerdings so, dass der Fototransistor nicht nur auf das Infrarotlicht von der Leuchtdiode reagiert, sondern auch auf anderes einfallendes Licht. Um den Sensor nicht jedes Mal manuell auf die Lichtverhältnisse im Zählerschrank kalibrieren zu müssen, habe ich hier erneut eine Filterung eingebaut. Dafür kommt ein sogenannter "exponentiell gewichteter gleitender Mittelwert" (EWMA) zum Einsatz.
+Nun ist es allerdings so, dass der Fototransistor nicht nur auf das reflektierte Infrarotlicht von der Leuchtdiode reagiert, sondern auch auf anderes einfallendes Licht. Um den Sensor nicht jedes Mal manuell auf die Lichtverhältnisse im Zählerschrank kalibrieren zu müssen, habe ich hier erneut eine Filterung eingebaut. Dafür kommt ein sogenannter "exponentiell gewichteter gleitender Mittelwert" (EWMA) zum Einsatz.
 
 Das hört sich jetzt sehr kompliziert an, heißt aber insgesamt eigentlich nur, dass der neu eingelesene Wert in einem Verhältnis zu dem bereits vorhandenen Durchschnittswert verrechnet wird. Das spart einiges an Arbeitsspeicher, da im Prinzip nur der aktuelle Durchschnittswert im Speicher gehalten werden muss.
 
-Wird ein neuer Wert eingelesen, so wird von dem Durchschnittswert bspw. ein Hundertstel entfernt und der neue Wert geteilt durch hundert dazuaddiert.
+Wird ein neuer Wert eingelesen, so wird von dem Durchschnittswert bspw. ein Hundertstel abgezogen und der neue Wert geteilt durch hundert dazuaddiert.
 
-Somit wird immer errechnet, was der aktuelle Helligkeitswert ohne rote Markierung ist, damit die Differenz akkurat ermittelt werden kann.
+Somit wird immer errechnet, was der durchschnittliche Helligkeitswert ohne die rote Markierung ist, damit eine Abweichung akkurat ermittelt werden kann.
 
 ### Sensorwerte
 Im folgenden Screenshot sieht man nun die rohen Sensorwerte beim Vorbeidrehen der roten Markierung.
@@ -82,12 +82,12 @@ Die rote Linie ist der gleitende Mittelwert der Sensorfilterung, dort sieht man 
 
 Die grüne Linie ist der EWMA von der automatischen Kalibrierung, man sieht sehr gut, dass er sich immer sehr langsam dem aktuellen Wert annähert und immer maximal einen Wert vom gefilterten Eingangssignal abweicht.
 
-Die blaue Linie ist ein Vergleichswert, was passieren würde, wenn man die kurzzeitige Filterung mit einem EWMA vornehmen würde. Die abfallende Kante ist mir hier nicht eindeutig genug, weshalb ich den gleitenden Mittelwert (rot) bevorzuge.
+Die blaue Linie ist ein Vergleichswert, was passieren würde, wenn man die kurzzeitige Filterung mit einem EWMA vornehmen würde. Die langsam abfallende Kante ist mir hier nicht eindeutig genug, weshalb ich den gleitenden Mittelwert (rot) bevorzuge.
 
 Die ungefilterten Sensorwerte sind in diesem Diagramm nicht gezeigt, da man sonst die gefilterten Linien gar nicht mehr erkennen würde.
 
 ## Momentanverbrauch
-Da nun eine Umdrehung der Zählerscheibe sehr gut gemessen werden kann geht es nun damit weiter, was man mit diesen Daten anfangen kann.
+Da nun eine Umdrehung der Zählerscheibe sehr gut gemessen werden kann geht es darum, was man mit diesen Daten anfangen kann.
 
 Auf dem Stromzähler steht immer, wie viele Umdrehungen pro gemessener Kilowattstunde anfallen. In meinem Fall sind es 375U/kWh. Das heißt man kann durch Zählen der Umdrehungen den Verbrauch in kWh erfassen und quasi den Zählerstand digital vorhalten, sofern der Sensor akkurat jede Umdrehung erkennt und keinen Ausfall erleidet.
 
@@ -96,5 +96,18 @@ Allerdings kann man zusätzlich auch die Zeit einer Umdrehung messen. Dadurch l�
 $$
 Watt=\frac{3600}{Intervall\ *\ \frac{375\ U/kWh}{1000}}
 $$
+
+ToDo:
+- Daten über MySensors
+- Daten in Influx/Grafana
+
+# Fazit
+- Fazit
+
+In Zukunft möchte ich den Stromzähler auf die aktuell in Entwicklung befindlicher modluaren Platine [SHMod24](https://github.com/LeoDJ/SHMod24) umbauen, um das Kabelgewirr im Zählerschrank zu reduzieren. Zu der Platine folgt hoffentlich™ bald auch ein Blog Artikel.
+
+
+
+
 
 <script src="/assets/js/MathJax/MathJax.js?config=TeX-MML-AM_CHTML"></script>
